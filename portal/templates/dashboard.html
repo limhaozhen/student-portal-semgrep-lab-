@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Welcome, {{ g.user.full_name }}</h1>
+
+{% if g.user.role == 'student' %}
+<div class="stats">
+  <div class="stat"><span class="stat-label">Courses</span><span class="stat-value">{{ courses|length }}</span></div>
+  <div class="stat"><span class="stat-label">Attendance</span><span class="stat-value">
+    {% if attendance.total %}{{ ((attendance.attended or 0) / attendance.total * 100)|round|int }}%{% else %}-{% endif %}</span></div>
+  <div class="stat"><span class="stat-label">Unread messages</span><span class="stat-value">{{ unread_count }}</span></div>
+</div>
+<div class="grid-2">
+  <section class="card">
+    <h2>Upcoming assignments</h2>
+    {% if upcoming %}
+    <ul class="list">
+      {% for a in upcoming %}
+      <li><a href="{{ url_for('assignments.detail', assignment_id=a.id) }}">{{ a.code }} · {{ a.title }}</a>
+        <span class="muted">due {{ a.due_at|dt }}</span>
+        {% if a.sub_id %}<span class="badge ok">submitted</span>{% endif %}</li>
+      {% endfor %}
+    </ul>
+    {% else %}<p class="muted">Nothing due soon.</p>{% endif %}
+  </section>
+  <section class="card">
+    <h2>Recent grades</h2>
+    {% if recent_grades %}
+    <ul class="list">
+      {% for gr in recent_grades %}
+      <li>{{ gr.code }} · {{ gr.assessment }} <strong>{{ '%g'|format(gr.score) }} / {{ '%g'|format(gr.max_score) }}</strong></li>
+      {% endfor %}
+    </ul>
+    {% else %}<p class="muted">No grades yet.</p>{% endif %}
+    <a class="btn btn-ghost btn-sm" href="{{ url_for('views.grades') }}">All grades</a>
+  </section>
+</div>
+<section class="card">
+  <h2>My courses</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Code</th><th>Course</th><th>Lecturer</th></tr></thead>
+    <tbody>{% for c in courses %}<tr><td>{{ c.code }}</td><td>{{ c.name }}</td><td>{{ c.lecturer }}</td></tr>{% endfor %}</tbody>
+  </table></div>
+</section>
+
+{% elif g.user.role == 'lecturer' %}
+<div class="stats">
+  <div class="stat"><span class="stat-label">Courses taught</span><span class="stat-value">{{ courses|length }}</span></div>
+  <div class="stat"><span class="stat-label">Waiting to grade</span><span class="stat-value">{{ to_grade|length }}</span></div>
+  <div class="stat"><span class="stat-label">Unread messages</span><span class="stat-value">{{ unread_count }}</span></div>
+</div>
+<div class="grid-2">
+  <section class="card">
+    <h2>My courses</h2>
+    <ul class="list">
+      {% for c in courses %}<li>{{ c.code }} · {{ c.name }} <span class="muted">{{ c.n_students }} students</span></li>{% endfor %}
+    </ul>
+  </section>
+  <section class="card">
+    <h2>Submissions to grade</h2>
+    {% if to_grade %}
+    <ul class="list">
+      {% for s in to_grade %}
+      <li><a href="{{ url_for('assignments.detail', assignment_id=s.assignment_id) }}">{{ s.code }} · {{ s.title }}</a>
+        <span class="muted">{{ s.full_name }}, {{ s.submitted_at|dt }}</span></li>
+      {% endfor %}
+    </ul>
+    {% else %}<p class="muted">All caught up.</p>{% endif %}
+  </section>
+</div>
+
+{% else %}
+<div class="stats">
+  <div class="stat"><span class="stat-label">Users</span><span class="stat-value">{{ stats.users }}</span></div>
+  <div class="stat"><span class="stat-label">Active sessions</span><span class="stat-value">{{ stats.active_sessions }}</span></div>
+  <div class="stat"><span class="stat-label">Failed sign-ins (24h)</span><span class="stat-value">{{ stats.failed_logins }}</span></div>
+  <div class="stat"><span class="stat-label">Lockouts (24h)</span><span class="stat-value">{{ stats.lockouts }}</span></div>
+  <div class="stat"><span class="stat-label">Access denied (24h)</span><span class="stat-value">{{ stats.authz_denied }}</span></div>
+</div>
+<section class="card">
+  <h2>Recent security failures</h2>
+  {% if recent %}
+  <div class="table-wrap"><table>
+    <thead><tr><th>Time</th><th>User</th><th>IP</th><th>Event</th><th>Detail</th></tr></thead>
+    <tbody>
+      {% for r in recent %}
+      <tr><td>{{ r.ts|dt }}</td><td>{{ r.username or '-' }}</td><td>{{ r.ip }}</td><td><code>{{ r.action }}</code></td><td>{{ r.detail or r.target or '' }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table></div>
+  {% else %}<p class="muted">No failures recorded.</p>{% endif %}
+  <a class="btn btn-ghost btn-sm" href="{{ url_for('admin.audit_log') }}">Open audit log</a>
+</section>
+{% endif %}
+{% endblock %}

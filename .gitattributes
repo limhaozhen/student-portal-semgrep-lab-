@@ -1,0 +1,4 @@
+# Keep Unix line endings so the scripts run on Kali even if committed from Windows.
+*.sh  text eol=lf
+*.py  text eol=lf
+*.sql text eol=lf

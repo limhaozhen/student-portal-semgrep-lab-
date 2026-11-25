@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Student Portal{% endblock %} · UniPortal</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% macro nav(endpoint, label, prefix) -%}
+  <a href="{{ url_for(endpoint) }}" class="{{ 'active' if request.endpoint and request.endpoint.startswith(prefix) else '' }}">{{ label }}</a>
+{%- endmacro %}
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="{{ url_for('views.dashboard') }}"><span class="brand-mark">U</span> UniPortal</a>
+    {% if g.user %}
+    <nav class="mainnav" aria-label="Main">
+      {{ nav('views.dashboard', 'Dashboard', 'views.dashboard') }}
+      {% if g.user.role in ('student', 'lecturer') %}
+        {{ nav('views.grades', 'Grades', 'views.grades') }}
+        {{ nav('views.attendance', 'Attendance', 'views.attendance') }}
+        {{ nav('assignments.index', 'Assignments', 'assignments.') }}
+        <a href="{{ url_for('messages.index') }}" class="{{ 'active' if request.endpoint and request.endpoint.startswith('messages.') else '' }}">Messages{% if unread_count %} <span class="count">{{ unread_count }}</span>{% endif %}</a>
+      {% endif %}
+      {% if g.user.role == 'admin' %}
+        {{ nav('admin.users', 'Users', 'admin.users') }}
+        {{ nav('admin.audit_log', 'Audit log', 'admin.audit_log') }}
+        {{ nav('admin.outbox', 'Email outbox', 'admin.outbox') }}
+      {% endif %}
+      {{ nav('profile.view', 'Profile', 'profile.') }}
+    </nav>
+    <div class="who">
+      <span class="who-name">{{ g.user.full_name }}</span>
+      <span class="badge role-{{ g.user.role }}">{{ g.user.role }}</span>
+      <form method="post" action="{{ url_for('auth.logout') }}" class="inline">
+        {{ csrf_field() }}
+        <button type="submit" class="btn btn-ghost btn-sm">Sign out</button>
+      </form>
+    </div>
+    {% endif %}
+  </div>
+</header>
+
+<main class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flashes">
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}" role="status">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+  <span>UniPortal · Secure-by-design lab application</span>
+  {% if g.user %}<span>Sessions end after {{ idle_minutes }} minutes of inactivity · Security events are logged</span>{% endif %}
+</footer>
+</body>
+</html>

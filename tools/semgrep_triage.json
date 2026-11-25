@@ -1,0 +1,30 @@
+{
+  "_comment": "Manual triage of Semgrep rules for UniPortal. Keys are the last part of the rule id (or the full id). Review each entry against the code and rewrite the reasons in your own words. Rules not listed here show up as 'Not triaged' in the report.",
+  "rules": {
+    "tainted-sql-string": {
+      "verdict": "False positive",
+      "reason": "The flagged line is security.deny(f\"create assignment in course {course_id}\") - an audit-log message, not SQL. The rule matched because the text starts with the SQL keyword 'create'. course_id is already converted to int (type=int), and every real query in db.py uses ? placeholders.",
+      "remediation": "No code change needed. If you want a clean scan, reword the log message or add '# nosemgrep: tainted-sql-string' with this justification."
+    },
+    "nan-injection": {
+      "verdict": "False positive (mitigated)",
+      "reason": "float(request.form['score']) is followed immediately by math.isfinite() and a 0..max_score range check, so 'nan', 'inf' and out-of-range values raise ValueError and are rejected with an error message (tested: score 999 is refused).",
+      "remediation": "Keep the isfinite() guard on every float() of user input. Optional: validate the raw text with a strict regex such as ^\\d{1,4}(\\.\\d{1,2})?$ before converting."
+    },
+    "make-response-with-unknown-content": {
+      "verdict": "False positive",
+      "reason": "The response body is the CAPTCHA SVG generated on the server from a fixed character set - no user input reaches it. It is served as image/svg+xml with Content-Security-Policy default-src 'none' and X-Content-Type-Options nosniff, so it cannot run script.",
+      "remediation": "No change needed. Keep the explicit mimetype and the CSP header."
+    },
+    "explicit-unescape-with-markup": {
+      "verdict": "Accepted risk (low)",
+      "reason": "Markup() marks the QR-code SVG made by the qrcode library as safe HTML. Its input (the username and a random base32 secret) is encoded as QR square geometry, never as text or tags, and the page CSP blocks all scripts.",
+      "remediation": "Optional hardening: serve the QR code from a separate /mfa/qr.svg route and show it with an <img> tag, so Markup() is no longer needed."
+    },
+    "django-no-csrf-token": {
+      "verdict": "False positive",
+      "reason": "This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check 'Login POST without CSRF token rejected' returns HTTP 400).",
+      "remediation": "No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token)."
+    }
+  }
+}

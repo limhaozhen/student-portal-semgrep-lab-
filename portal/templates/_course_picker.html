@@ -1,0 +1,14 @@
+{% if courses %}
+<form method="get" class="picker">
+  <label>Course
+    <select name="course">
+      {% for c in courses %}
+      <option value="{{ c.id }}" {% if course and c.id == course.id %}selected{% endif %}>{{ c.code }} · {{ c.name }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <button type="submit" class="btn btn-ghost btn-sm">Show</button>
+</form>
+{% else %}
+<p class="muted">You are not assigned to any courses.</p>
+{% endif %}

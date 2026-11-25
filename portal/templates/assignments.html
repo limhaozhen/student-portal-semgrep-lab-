@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Assignments{% endblock %}
+{% block content %}
+<h1>Assignments</h1>
+<section class="card">
+  <div class="table-wrap"><table>
+    {% if g.user.role == 'student' %}
+    <thead><tr><th>Course</th><th>Assignment</th><th>Due</th><th>Status</th></tr></thead>
+    <tbody>
+    {% for a in rows %}
+      <tr>
+        <td>{{ a.code }}</td>
+        <td><a href="{{ url_for('assignments.detail', assignment_id=a.id) }}">{{ a.title }}</a></td>
+        <td>{{ a.due_at|dt }}</td>
+        <td>
+          {% if a.score is not none %}<span class="badge ok">graded {{ '%g'|format(a.score) }}/{{ '%g'|format(a.max_score) }}</span>
+          {% elif a.submitted_at %}<span class="badge info">submitted{% if a.submitted_at > a.due_at %} (late){% endif %}</span>
+          {% elif a.due_at < now_ts %}<span class="badge warn">overdue</span>
+          {% else %}<span class="badge">not submitted</span>{% endif %}
+        </td>
+      </tr>
+    {% else %}
+      <tr><td colspan="4" class="muted">No assignments for your courses.</td></tr>
+    {% endfor %}
+    </tbody>
+    {% else %}
+    <thead><tr><th>Course</th><th>Assignment</th><th>Due</th><th class="num">Submitted</th><th class="num">To grade</th></tr></thead>
+    <tbody>
+    {% for a in rows %}
+      <tr>
+        <td>{{ a.code }}</td>
+        <td><a href="{{ url_for('assignments.detail', assignment_id=a.id) }}">{{ a.title }}</a></td>
+        <td>{{ a.due_at|dt }}</td>
+        <td class="num">{{ a.n_sub }} / {{ a.n_students }}</td>
+        <td class="num">{% if a.n_ungraded %}<span class="badge warn">{{ a.n_ungraded }}</span>{% else %}0{% endif %}</td>
+      </tr>
+    {% else %}
+      <tr><td colspan="5" class="muted">No assignments yet.</td></tr>
+    {% endfor %}
+    </tbody>
+    {% endif %}
+  </table></div>
+</section>
+
+{% if g.user.role == 'lecturer' and courses %}
+<section class="card">
+  <h2>Publish a new assignment</h2>
+  <form method="post" action="{{ url_for('assignments.create') }}" class="form-grid">
+    {{ csrf_field() }}
+    <label>Course
+      <select name="course_id" required>
+        {% for c in courses %}<option value="{{ c.id }}">{{ c.code }} · {{ c.name }}</option>{% endfor %}
+      </select>
+    </label>
+    <label>Title <input name="title" required minlength="3" maxlength="120"></label>
+    <label>Due date <input type="datetime-local" name="due_at" required></label>
+    <label>Maximum score <input type="number" name="max_score" value="100" min="1" max="1000" step="0.5" required></label>
+    <label class="span-2">Description <textarea name="description" rows="3" maxlength="2000"></textarea></label>
+    <div class="span-2"><button type="submit" class="btn btn-primary">Publish</button></div>
+  </form>
+</section>
+{% endif %}
+{% endblock %}

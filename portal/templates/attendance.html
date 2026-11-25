@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Attendance{% endblock %}
+{% block content %}
+<h1>Attendance</h1>
+{% if g.user.role == 'student' %}
+  {% for s in summary %}
+  {% set pct = ((s.attended or 0) / s.total * 100)|round|int %}
+  <section class="card">
+    <div class="card-head">
+      <h2>{{ s.code }} · {{ s.name }}</h2>
+      <span class="badge {{ 'ok' if pct >= 80 else 'warn' }}">{{ pct }}% attended</span>
+    </div>
+    <div class="chips">
+      {% for r in records if r.course_id == s.id %}
+      <span class="chip status-{{ r.status }}" title="{{ r.status }}">{{ r.class_date }} · {{ r.status }}</span>
+      {% endfor %}
+    </div>
+    {% if pct < 80 %}<p class="hint">Below the 80% attendance requirement.</p>{% endif %}
+  </section>
+  {% else %}
+  <p class="muted">No attendance recorded yet.</p>
+  {% endfor %}
+{% else %}
+  {% include "_course_picker.html" %}
+  {% if course %}
+  <section class="card">
+    <h2>{{ course.code }} · {{ course.name }}</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Student</th><th>ID</th><th class="num">Classes</th><th class="num">Attended</th><th class="num">Absent</th><th class="num">%</th></tr></thead>
+      <tbody>
+      {% for s in summary %}
+        {% set pct = ((s.attended or 0) / s.total * 100)|round|int %}
+        <tr><td>{{ s.full_name }}</td><td>{{ s.id_number }}</td><td class="num">{{ s.total }}</td><td class="num">{{ s.attended }}</td>
+          <td class="num">{{ s.absent }}</td><td class="num"><span class="badge {{ 'ok' if pct >= 80 else 'warn' }}">{{ pct }}%</span></td></tr>
+      {% endfor %}
+      </tbody>
+    </table></div>
+  </section>
+  {% endif %}
+{% endif %}
+{% endblock %}

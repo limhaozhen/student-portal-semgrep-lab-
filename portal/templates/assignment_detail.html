@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}{{ a.title }}{% endblock %}
+{% block content %}
+<p class="crumbs"><a href="{{ url_for('assignments.index') }}">Assignments</a> / {{ a.code }}</p>
+<h1>{{ a.title }}</h1>
+<section class="card">
+  <dl class="meta">
+    <div><dt>Course</dt><dd>{{ a.code }} · {{ a.course_name }}</dd></div>
+    <div><dt>Due</dt><dd>{{ a.due_at|dt }}{% if a.due_at < now_ts %} <span class="badge warn">closed</span>{% endif %}</dd></div>
+    <div><dt>Maximum score</dt><dd>{{ '%g'|format(a.max_score) }}</dd></div>
+  </dl>
+  {% if a.description %}<p class="prewrap">{{ a.description }}</p>{% endif %}
+</section>
+
+{% if g.user.role == 'student' %}
+  {% if sub %}
+  <section class="card">
+    <h2>Your submission</h2>
+    <dl class="meta">
+      <div><dt>File</dt><dd><a href="{{ url_for('assignments.download', submission_id=sub.id) }}">{{ sub.original_name }}</a> ({{ sub.size_bytes|filesize }})</dd></div>
+      <div><dt>Submitted</dt><dd>{{ sub.submitted_at|dt }}{% if sub.submitted_at > a.due_at %} <span class="badge warn">late</span>{% endif %}</dd></div>
+      <div><dt>SHA-256 receipt</dt><dd><code class="hash">{{ sub.sha256 }}</code></dd></div>
+      <div><dt>Malware scan</dt><dd><span class="badge {{ 'ok' if sub.scan_status == 'clean' else 'warn' }}">{{ sub.scan_status }}</span></dd></div>
+      {% if sub.score is not none %}
+      <div><dt>Score</dt><dd><strong>{{ '%g'|format(sub.score) }} / {{ '%g'|format(a.max_score) }}</strong></dd></div>
+      {% endif %}
+    </dl>
+    {% if sub.feedback %}<h3>Feedback</h3><p class="prewrap">{{ sub.feedback }}</p>{% endif %}
+  </section>
+  {% endif %}
+
+  {% if can_submit %}
+  <section class="card">
+    <h2>{{ 'Replace submission' if sub else 'Upload your work' }}</h2>
+    {% if a.due_at < now_ts %}<div class="alert alert-warning">The deadline has passed. Your submission will be marked late and cannot be replaced.</div>{% endif %}
+    <form method="post" action="{{ url_for('assignments.submit', assignment_id=a.id) }}" enctype="multipart/form-data" class="stack">
+      {{ csrf_field() }}
+      <label>File (PDF, DOCX or TXT, max {{ max_mb }} MB)
+        <input type="file" name="file" accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain" required>
+      </label>
+      <p class="hint">Files are checked by type and content, scanned for malware, and stored with a random name. You'll receive an emailed receipt.</p>
+      <div><button type="submit" class="btn btn-primary">Submit</button></div>
+    </form>
+  </section>
+  {% elif sub %}
+  <p class="muted">This submission is final{% if sub.score is not none %} (graded){% else %} (deadline passed){% endif %}.</p>
+  {% endif %}
+
+{% else %}
+<section class="card">
+  <h2>Submissions</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Student</th><th>File</th><th>Submitted</th><th>Scan</th><th>Grade</th></tr></thead>
+    <tbody>
+    {% for s in subs %}
+      <tr>
+        <td>{{ s.full_name }}<br><span class="muted">{{ s.id_number }}</span></td>
+        {% if s.sub_id %}
+        <td><a href="{{ url_for('assignments.download', submission_id=s.sub_id) }}">{{ s.original_name }}</a><br>
+          <span class="muted">{{ s.size_bytes|filesize }}</span> <code class="hash" title="SHA-256">{{ s.sha256[:16] }}…</code></td>
+        <td>{{ s.submitted_at|dt }}{% if s.submitted_at > a.due_at %}<br><span class="badge warn">late</span>{% endif %}</td>
+        <td><span class="badge {{ 'ok' if s.scan_status == 'clean' else 'warn' }}" title="{{ s.scan_detail or '' }}">{{ s.scan_status }}</span></td>
+        <td>
+          <form method="post" action="{{ url_for('assignments.grade', submission_id=s.sub_id) }}" class="grade-form">
+            {{ csrf_field() }}
+            <input type="number" name="score" min="0" max="{{ a.max_score }}" step="0.5" value="{{ '%g'|format(s.score) if s.score is not none else '' }}" required aria-label="Score">
+            <span class="muted">/ {{ '%g'|format(a.max_score) }}</span>
+            <textarea name="feedback" rows="2" maxlength="2000" placeholder="Feedback" aria-label="Feedback">{{ s.feedback or '' }}</textarea>
+            <button type="submit" class="btn btn-sm btn-primary">{{ 'Update' if s.score is not none else 'Save grade' }}</button>
+          </form>
+        </td>
+        {% else %}
+        <td colspan="4" class="muted">No submission</td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+</section>
+{% endif %}
+{% endblock %}

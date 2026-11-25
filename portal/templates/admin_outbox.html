@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Email outbox{% endblock %}
+{% block content %}
+<h1>Email outbox</h1>
+<p class="muted">Stand-in for the email gateway: every notification the portal sends is recorded here. Set PORTAL_SMTP_HOST to deliver real email.</p>
+{% for m in rows %}
+<section class="card mail">
+  <div class="card-head">
+    <h2 class="h3">{{ m.subject }}</h2>
+    <span class="muted">{{ m.ts|dt }}</span>
+  </div>
+  <p class="muted">To: {{ m.to_addr }}</p>
+  <div class="prewrap">{{ m.body }}</div>
+</section>
+{% else %}
+<p class="muted">No emails sent yet.</p>
+{% endfor %}
+{% endblock %}

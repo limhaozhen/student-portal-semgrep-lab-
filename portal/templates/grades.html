@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Grades{% endblock %}
+{% block content %}
+<h1>Grades</h1>
+{% if g.user.role == 'student' %}
+  {% for code, items in rows|groupby('code') %}
+  <section class="card">
+    <h2>{{ code }} · {{ items[0].name }}</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Assessment</th><th class="num">Score</th><th class="num">%</th><th>Updated</th></tr></thead>
+      <tbody>
+      {% for r in items %}
+        <tr><td>{{ r.assessment }}</td><td class="num">{{ '%g'|format(r.score) }} / {{ '%g'|format(r.max_score) }}</td>
+          <td class="num">{{ (r.score / r.max_score * 100)|round(1) }}</td><td>{{ r.updated_at|dt }}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table></div>
+  </section>
+  {% else %}
+  <p class="muted">No grades recorded yet.</p>
+  {% endfor %}
+{% else %}
+  {% include "_course_picker.html" %}
+  {% if course %}
+  <section class="card">
+    <h2>{{ course.code }} · {{ course.name }}</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Student</th><th>ID</th><th>Assessment</th><th class="num">Score</th></tr></thead>
+      <tbody>
+      {% for r in rows %}
+        <tr><td>{{ r.full_name }}</td><td>{{ r.id_number }}</td><td>{{ r.assessment or '-' }}</td>
+          <td class="num">{% if r.score is not none %}{{ '%g'|format(r.score) }} / {{ '%g'|format(r.max_score) }}{% else %}-{% endif %}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table></div>
+    <p class="hint">Grades for assignments are entered from the assignment's submission list.</p>
+  </section>
+  {% endif %}
+{% endif %}
+{% endblock %}

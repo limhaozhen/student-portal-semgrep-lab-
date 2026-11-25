@@ -1,0 +1,736 @@
+{
+  "generated": "2026-11-20 02:40",
+  "semgrep_version": "1.186.0",
+  "total_findings": 20,
+  "files_scanned": 49,
+  "scan_errors": 9,
+  "by_severity": {
+    "High": 3,
+    "Medium": 17
+  },
+  "by_file": {
+    "portal/templates/profile.html": 4,
+    "portal/assignments.py": 3,
+    "portal/templates/admin_users.html": 3,
+    "portal/auth.py": 2,
+    "portal/templates/assignment_detail.html": 2,
+    "portal/templates/assignments.html": 1,
+    "portal/templates/base.html": 1,
+    "portal/templates/login.html": 1,
+    "portal/templates/login_mfa.html": 1,
+    "portal/templates/message_new.html": 1,
+    "portal/templates/mfa_setup.html": 1
+  },
+  "rules": [
+    {
+      "rule_id": "python.django.security.injection.tainted-sql-string.tainted-sql-string",
+      "rule": "tainted-sql-string",
+      "severity": "ERROR",
+      "severity_label": "High",
+      "count": 1,
+      "cwe": [
+        "CWE-915: Improperly Controlled Modification of Dynamically-Determined Object Attributes"
+      ],
+      "owasp": [
+        "A08:2021 - Software and Data Integrity Failures",
+        "A08:2025 - Software or Data Integrity Failures"
+      ],
+      "confidence": "LOW",
+      "verdict": "False positive",
+      "remediation": "No code change needed. If you want a clean scan, reword the log message or add '# nosemgrep: tainted-sql-string' with this justification.",
+      "files": [
+        "portal/assignments.py"
+      ]
+    },
+    {
+      "rule_id": "python.flask.security.injection.nan-injection.nan-injection",
+      "rule": "nan-injection",
+      "severity": "ERROR",
+      "severity_label": "High",
+      "count": 1,
+      "cwe": [
+        "CWE-704: Incorrect Type Conversion or Cast"
+      ],
+      "owasp": [],
+      "confidence": "MEDIUM",
+      "verdict": "False positive (mitigated)",
+      "remediation": "Keep the isfinite() guard on every float() of user input. Optional: validate the raw text with a strict regex such as ^\\d{1,4}(\\.\\d{1,2})?$ before converting.",
+      "files": [
+        "portal/assignments.py"
+      ]
+    },
+    {
+      "rule_id": "python.flask.security.injection.tainted-sql-string.tainted-sql-string",
+      "rule": "tainted-sql-string",
+      "severity": "ERROR",
+      "severity_label": "High",
+      "count": 1,
+      "cwe": [
+        "CWE-704: Incorrect Type Conversion or Cast"
+      ],
+      "owasp": [
+        "A01:2017 - Injection",
+        "A03:2021 - Injection",
+        "A05:2025 - Injection"
+      ],
+      "confidence": "MEDIUM",
+      "verdict": "False positive",
+      "remediation": "No code change needed. If you want a clean scan, reword the log message or add '# nosemgrep: tainted-sql-string' with this justification.",
+      "files": [
+        "portal/assignments.py"
+      ]
+    },
+    {
+      "rule_id": "python.django.security.django-no-csrf-token.django-no-csrf-token",
+      "rule": "django-no-csrf-token",
+      "severity": "WARNING",
+      "severity_label": "Medium",
+      "count": 15,
+      "cwe": [
+        "CWE-352: Cross-Site Request Forgery (CSRF)"
+      ],
+      "owasp": [],
+      "confidence": "MEDIUM",
+      "verdict": "False positive",
+      "remediation": "No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token).",
+      "files": [
+        "portal/templates/admin_users.html",
+        "portal/templates/assignment_detail.html",
+        "portal/templates/assignments.html",
+        "portal/templates/base.html",
+        "portal/templates/login.html",
+        "portal/templates/login_mfa.html",
+        "portal/templates/message_new.html",
+        "portal/templates/mfa_setup.html",
+        "portal/templates/profile.html"
+      ]
+    },
+    {
+      "rule_id": "python.flask.security.audit.xss.make-response-with-unknown-content.make-response-with-unknown-content",
+      "rule": "make-response-with-unknown-content",
+      "severity": "WARNING",
+      "severity_label": "Medium",
+      "count": 1,
+      "cwe": [
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "owasp": [
+        "A07:2017 - Cross-Site Scripting (XSS)",
+        "A03:2021 - Injection",
+        "A05:2025 - Injection"
+      ],
+      "confidence": "LOW",
+      "verdict": "False positive",
+      "remediation": "No change needed. Keep the explicit mimetype and the CSP header.",
+      "files": [
+        "portal/auth.py"
+      ]
+    },
+    {
+      "rule_id": "python.flask.security.xss.audit.explicit-unescape-with-markup.explicit-unescape-with-markup",
+      "rule": "explicit-unescape-with-markup",
+      "severity": "WARNING",
+      "severity_label": "Medium",
+      "count": 1,
+      "cwe": [
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "owasp": [
+        "A07:2017 - Cross-Site Scripting (XSS)",
+        "A03:2021 - Injection",
+        "A05:2025 - Injection"
+      ],
+      "confidence": "LOW",
+      "verdict": "Accepted risk (low)",
+      "remediation": "Optional hardening: serve the QR code from a separate /mfa/qr.svg route and show it with an <img> tag, so Markup() is no longer needed.",
+      "files": [
+        "portal/auth.py"
+      ]
+    }
+  ],
+  "verdicts": {
+    "False positive": 18,
+    "False positive (mitigated)": 1,
+    "Accepted risk (low)": 1
+  },
+  "findings": [
+    {
+      "rule_id": "python.django.security.injection.tainted-sql-string.tainted-sql-string",
+      "rule": "tainted-sql-string",
+      "severity": "ERROR",
+      "severity_label": "High",
+      "file": "portal/assignments.py",
+      "line": 146,
+      "end_line": 146,
+      "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the database. Instead, use a parameterized query which is available by default in most database engines. Alternatively, consider using the Django object-relational mappers (ORM) instead of raw SQL queries.",
+      "cwe": [
+        "CWE-915: Improperly Controlled Modification of Dynamically-Determined Object Attributes"
+      ],
+      "owasp": [
+        "A08:2021 - Software and Data Integrity Failures",
+        "A08:2025 - Software or Data Integrity Failures"
+      ],
+      "confidence": "LOW",
+      "likelihood": "MEDIUM",
+      "impact": "LOW",
+      "subcategory": "audit",
+      "vulnerability_class": "Mass Assignment",
+      "references": [
+        "https://docs.djangoproject.com/en/3.0/topics/security/#sql-injection-protection"
+      ],
+      "rule_url": "https://sg.run/PbZp",
+      "verdict": "False positive",
+      "triage_reason": "The flagged line is security.deny(f\"create assignment in course {course_id}\") - an audit-log message, not SQL. The rule matched because the text starts with the SQL keyword 'create'. course_id is already converted to int (type=int), and every real query in db.py uses ? placeholders.",
+      "remediation": "No code change needed. If you want a clean scan, reword the log message or add '# nosemgrep: tainted-sql-string' with this justification."
+    },
+    {
+      "rule_id": "python.flask.security.injection.tainted-sql-string.tainted-sql-string",
+      "rule": "tainted-sql-string",
+      "severity": "ERROR",
+      "severity_label": "High",
+      "file": "portal/assignments.py",
+      "line": 146,
+      "end_line": 146,
+      "message": "Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the database. Instead, use a parameterized query which is available by default in most database engines. Alternatively, consider using an object-relational mapper (ORM) such as SQLAlchemy which will protect your queries.",
+      "cwe": [
+        "CWE-704: Incorrect Type Conversion or Cast"
+      ],
+      "owasp": [
+        "A01:2017 - Injection",
+        "A03:2021 - Injection",
+        "A05:2025 - Injection"
+      ],
+      "confidence": "MEDIUM",
+      "likelihood": "MEDIUM",
+      "impact": "MEDIUM",
+      "subcategory": "vuln",
+      "vulnerability_class": "Improper Validation",
+      "references": [
+        "https://docs.sqlalchemy.org/en/14/core/tutorial.html#using-textual-sql",
+        "https://www.tutorialspoint.com/sqlalchemy/sqlalchemy_quick_guide.htm",
+        "https://docs.sqlalchemy.org/en/14/core/tutorial.html#using-more-specific-text-with-table-expression-literal-column-and-expression-column"
+      ],
+      "rule_url": "https://sg.run/JxZj",
+      "verdict": "False positive",
+      "triage_reason": "The flagged line is security.deny(f\"create assignment in course {course_id}\") - an audit-log message, not SQL. The rule matched because the text starts with the SQL keyword 'create'. course_id is already converted to int (type=int), and every real query in db.py uses ? placeholders.",
+      "remediation": "No code change needed. If you want a clean scan, reword the log message or add '# nosemgrep: tainted-sql-string' with this justification."
+    },
+    {
+      "rule_id": "python.flask.security.injection.nan-injection.nan-injection",
+      "rule": "nan-injection",
+      "severity": "ERROR",
+      "severity_label": "High",
+      "file": "portal/assignments.py",
+      "line": 299,
+      "end_line": 299,
+      "message": "Found user input going directly into typecast for bool(), float(), or complex(). This allows an attacker to inject Python's not-a-number (NaN) into the typecast. This results in undefind behavior, particularly when doing comparisons. Either cast to a different type, or add a guard checking for all capitalizations of the string 'nan'.",
+      "cwe": [
+        "CWE-704: Incorrect Type Conversion or Cast"
+      ],
+      "owasp": [],
+      "confidence": "MEDIUM",
+      "likelihood": "MEDIUM",
+      "impact": "MEDIUM",
+      "subcategory": "vuln",
+      "vulnerability_class": "Improper Validation",
+      "references": [
+        "https://discuss.python.org/t/nan-breaks-min-max-and-sorting-functions-a-solution/2868",
+        "https://blog.bitdiscovery.com/2021/12/python-nan-injection/"
+      ],
+      "rule_url": "https://sg.run/e598",
+      "verdict": "False positive (mitigated)",
+      "triage_reason": "float(request.form['score']) is followed immediately by math.isfinite() and a 0..max_score range check, so 'nan', 'inf' and out-of-range values raise ValueError and are rejected with an error message (tested: score 999 is refused).",
+      "remediation": "Keep the isfinite() guard on every float() of user input. Optional: validate the raw text with a strict regex such as ^\\d{1,4}(\\.\\d{1,2})?$ before converting."
+    },
+    {
+      "rule_id": "python.flask.security.audit.xss.make-response-with-unknown-content.make-response-with-unknown-content",
+      "rule": "make-response-with-unknown-content",
+      "severity": "WARNING",
+      "severity_label": "Medium",
+      "file": "portal/auth.py",
+      "line": 181,
+      "end_line": 181,
+      "message": "Be careful with `flask.make_response()`. If this response is rendered onto a webpage, this could create a cross-site scripting (XSS) vulnerability. `flask.make_response()` will not autoescape HTML. If you are rendering HTML, write your HTML in a template file and use `flask.render_template()` which will take care of escaping. If you are returning data from an API, consider using `flask.jsonify()`.",
+      "cwe": [
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "owasp": [
+        "A07:2017 - Cross-Site Scripting (XSS)",
+        "A03:2021 - Injection",
+        "A05:2025 - Injection"
+      ],
+      "confidence": "LOW",
+      "likelihood": "LOW",
+      "impact": "MEDIUM",
+      "subcategory": "audit",
+      "vulnerability_class": "Cross-Site-Scripting (XSS)",
+      "references": [
+        "https://github.com/python-security/pyt//blob/093a077bcf12d1f58ddeb2d73ddc096623985fb0/examples/vulnerable_code/XSS_assign_to_other_var.py#L11",
+        "https://flask.palletsprojects.com/en/1.1.x/api/#flask.Flask.make_response",
+        "https://flask.palletsprojects.com/en/1.1.x/api/#response-objects"
+      ],
+      "rule_url": "https://sg.run/3x3p",
+      "verdict": "False positive",
+      "triage_reason": "The response body is the CAPTCHA SVG generated on the server from a fixed character set - no user input reaches it. It is served as image/svg+xml with Content-Security-Policy default-src 'none' and X-Content-Type-Options nosniff, so it cannot run script.",
+      "remediation": "No change needed. Keep the explicit mimetype and the CSP header."
+    },
+    {
+      "rule_id": "python.flask.security.xss.audit.explicit-unescape-with-markup.explicit-unescape-with-markup",
+      "rule": "explicit-unescape-with-markup",
+      "severity": "WARNING",
+      "severity_label": "Medium",
+      "file": "portal/auth.py",
+      "line": 240,
+      "end_line": 240,
+      "message": "Detected explicitly unescaped content using 'Markup()'. This permits the unescaped data to include unescaped HTML which could result in cross-site scripting. Ensure this data is not externally controlled, or consider rewriting to not use 'Markup()'.",
+      "cwe": [
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "owasp": [
+        "A07:2017 - Cross-Site Scripting (XSS)",
+        "A03:2021 - Injection",
+        "A05:2025 - Injection"
+      ],
+      "confidence": "LOW",
+      "likelihood": "LOW",
+      "impact": "MEDIUM",
+      "subcategory": "audit",
+      "vulnerability_class": "Cross-Site-Scripting (XSS)",
+      "references": [
+        "https://tedboy.github.io/flask/generated/generated/flask.Markup.html"
+      ],
+      "rule_url": "https://sg.run/AvZ8",
+      "verdict": "Accepted risk (low)",
+      "triage_reason": "Markup() marks the QR-code SVG made by the qrcode library as safe HTML. Its input (the username and a random base32 secret) is encoded as QR square geometry, never as text or tags, and the page CSP blocks all scripts.",
+      "remediation": "Optional hardening: serve the QR code from a separate /mfa/qr.svg route and show it with an <img> tag, so Markup() is no longer needed."
+    },
+    {
+      "rule_id": "python.django.security.django-no-csrf-token.django-no-csrf-token",
+      "rule": "django-no-csrf-token",
+      "severity": "WARNING",
+      "severity_label": "Medium",
+      "file": "portal/templates/admin_users.html",
+      "line": 23,
+      "end_line": 23,
+      "message": "Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.",
+      "cwe": [
+        "CWE-352: Cross-Site Request Forgery (CSRF)"
+      ],
+      "owasp": [],
+      "confidence": "MEDIUM",
+      "likelihood": "MEDIUM",
+      "impact": "MEDIUM",
+      "subcategory": "audit",
+      "vulnerability_class": "Cross-Site Request Forgery (CSRF)",
+      "references": [
+        "https://docs.djangoproject.com/en/4.2/howto/csrf/"
+      ],
+      "rule_url": "https://sg.run/N0Bp",
+      "verdict": "False positive",
+      "triage_reason": "This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check 'Login POST without CSRF token rejected' returns HTTP 400).",
+      "remediation": "No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token)."
+    },
+    {
+      "rule_id": "python.django.security.django-no-csrf-token.django-no-csrf-token",
+      "rule": "django-no-csrf-token",
+      "severity": "WARNING",
+      "severity_label": "Medium",
+      "file": "portal/templates/admin_users.html",
+      "line": 26,
+      "end_line": 26,
+      "message": "Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.",
+      "cwe": [
+        "CWE-352: Cross-Site Request Forgery (CSRF)"
+      ],
+      "owasp": [],
+      "confidence": "MEDIUM",
+      "likelihood": "MEDIUM",
+      "impact": "MEDIUM",
+      "subcategory": "audit",
+      "vulnerability_class": "Cross-Site Request Forgery (CSRF)",
+      "references": [
+        "https://docs.djangoproject.com/en/4.2/howto/csrf/"
+      ],
+      "rule_url": "https://sg.run/N0Bp",
+      "verdict": "False positive",
+      "triage_reason": "This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check 'Login POST without CSRF token rejected' returns HTTP 400).",
+      "remediation": "No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token)."
+    },
+    {
+      "rule_id": "python.django.security.django-no-csrf-token.django-no-csrf-token",
+      "rule": "django-no-csrf-token",
+      "severity": "WARNING",
+      "severity_label": "Medium",
+      "file": "portal/templates/admin_users.html",
+      "line": 29,
+      "end_line": 29,
+      "message": "Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.",
+      "cwe": [
+        "CWE-352: Cross-Site Request Forgery (CSRF)"
+      ],
+      "owasp": [],
+      "confidence": "MEDIUM",
+      "likelihood": "MEDIUM",
+      "impact": "MEDIUM",
+      "subcategory": "audit",
+      "vulnerability_class": "Cross-Site Request Forgery (CSRF)",
+      "references": [
+        "https://docs.djangoproject.com/en/4.2/howto/csrf/"
+      ],
+      "rule_url": "https://sg.run/N0Bp",
+      "verdict": "False positive",
+      "triage_reason": "This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check 'Login POST without CSRF token rejected' returns HTTP 400).",
+      "remediation": "No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token)."
+    },
+    {
+      "rule_id": "python.django.security.django-no-csrf-token.django-no-csrf-token",
+      "rule": "django-no-csrf-token",
+      "severity": "WARNING",
+      "severity_label": "Medium",
+      "file": "portal/templates/assignment_detail.html",
+      "line": 36,
+      "end_line": 43,
+      "message": "Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.",
+      "cwe": [
+        "CWE-352: Cross-Site Request Forgery (CSRF)"
+      ],
+      "owasp": [],
+      "confidence": "MEDIUM",
+      "likelihood": "MEDIUM",
+      "impact": "MEDIUM",
+      "subcategory": "audit",
+      "vulnerability_class": "Cross-Site Request Forgery (CSRF)",
+      "references": [
+        "https://docs.djangoproject.com/en/4.2/howto/csrf/"
+      ],
+      "rule_url": "https://sg.run/N0Bp",
+      "verdict": "False positive",
+      "triage_reason": "This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check 'Login POST without CSRF token rejected' returns HTTP 400).",
+      "remediation": "No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token)."
+    },
+    {
+      "rule_id": "python.django.security.django-no-csrf-token.django-no-csrf-token",
+      "rule": "django-no-csrf-token",
+      "severity": "WARNING",
+      "severity_label": "Medium",
+      "file": "portal/templates/assignment_detail.html",
+      "line": 64,
+      "end_line": 70,
+      "message": "Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.",
+      "cwe": [
+        "CWE-352: Cross-Site Request Forgery (CSRF)"
+      ],
+      "owasp": [],
+      "confidence": "MEDIUM",
+      "likelihood": "MEDIUM",
+      "impact": "MEDIUM",
+      "subcategory": "audit",
+      "vulnerability_class": "Cross-Site Request Forgery (CSRF)",
+      "references": [
+        "https://docs.djangoproject.com/en/4.2/howto/csrf/"
+      ],
+      "rule_url": "https://sg.run/N0Bp",
+      "verdict": "False positive",
+      "triage_reason": "This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check 'Login POST without CSRF token rejected' returns HTTP 400).",
+      "remediation": "No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token)."
+    },
+    {
+      "rule_id": "python.django.security.django-no-csrf-token.django-no-csrf-token",
+      "rule": "django-no-csrf-token",
+      "severity": "WARNING",
+      "severity_label": "Medium",
+      "file": "portal/templates/assignments.html",
+      "line": 48,
+      "end_line": 60,
+      "message": "Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.",
+      "cwe": [
+        "CWE-352: Cross-Site Request Forgery (CSRF)"
+      ],
+      "owasp": [],
+      "confidence": "MEDIUM",
+      "likelihood": "MEDIUM",
+      "impact": "MEDIUM",
+      "subcategory": "audit",
+      "vulnerability_class": "Cross-Site Request Forgery (CSRF)",
+      "references": [
+        "https://docs.djangoproject.com/en/4.2/howto/csrf/"
+      ],
+      "rule_url": "https://sg.run/N0Bp",
+      "verdict": "False positive",
+      "triage_reason": "This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check 'Login POST without CSRF token rejected' returns HTTP 400).",
+      "remediation": "No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token)."
+    },
+    {
+      "rule_id": "python.django.security.django-no-csrf-token.django-no-csrf-token",
+      "rule": "django-no-csrf-token",
+      "severity": "WARNING",
+      "severity_label": "Medium",
+      "file": "portal/templates/base.html",
+      "line": 35,
+      "end_line": 38,
+      "message": "Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.",
+      "cwe": [
+        "CWE-352: Cross-Site Request Forgery (CSRF)"
+      ],
+      "owasp": [],
+      "confidence": "MEDIUM",
+      "likelihood": "MEDIUM",
+      "impact": "MEDIUM",
+      "subcategory": "audit",
+      "vulnerability_class": "Cross-Site Request Forgery (CSRF)",
+      "references": [
+        "https://docs.djangoproject.com/en/4.2/howto/csrf/"
+      ],
+      "rule_url": "https://sg.run/N0Bp",
+      "verdict": "False positive",
+      "triage_reason": "This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check 'Login POST without CSRF token rejected' returns HTTP 400).",
+      "remediation": "No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token)."
+    },
+    {
+      "rule_id": "python.django.security.django-no-csrf-token.django-no-csrf-token",
+      "rule": "django-no-csrf-token",
+      "severity": "WARNING",
+      "severity_label": "Medium",
+      "file": "portal/templates/login.html",
+      "line": 9,
+      "end_line": 27,
+      "message": "Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.",
+      "cwe": [
+        "CWE-352: Cross-Site Request Forgery (CSRF)"
+      ],
+      "owasp": [],
+      "confidence": "MEDIUM",
+      "likelihood": "MEDIUM",
+      "impact": "MEDIUM",
+      "subcategory": "audit",
+      "vulnerability_class": "Cross-Site Request Forgery (CSRF)",
+      "references": [
+        "https://docs.djangoproject.com/en/4.2/howto/csrf/"
+      ],
+      "rule_url": "https://sg.run/N0Bp",
+      "verdict": "False positive",
+      "triage_reason": "This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check 'Login POST without CSRF token rejected' returns HTTP 400).",
+      "remediation": "No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token)."
+    },
+    {
+      "rule_id": "python.django.security.django-no-csrf-token.django-no-csrf-token",
+      "rule": "django-no-csrf-token",
+      "severity": "WARNING",
+      "severity_label": "Medium",
+      "file": "portal/templates/login_mfa.html",
+      "line": 9,
+      "end_line": 15,
+      "message": "Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.",
+      "cwe": [
+        "CWE-352: Cross-Site Request Forgery (CSRF)"
+      ],
+      "owasp": [],
+      "confidence": "MEDIUM",
+      "likelihood": "MEDIUM",
+      "impact": "MEDIUM",
+      "subcategory": "audit",
+      "vulnerability_class": "Cross-Site Request Forgery (CSRF)",
+      "references": [
+        "https://docs.djangoproject.com/en/4.2/howto/csrf/"
+      ],
+      "rule_url": "https://sg.run/N0Bp",
+      "verdict": "False positive",
+      "triage_reason": "This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check 'Login POST without CSRF token rejected' returns HTTP 400).",
+      "remediation": "No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token)."
+    },
+    {
+      "rule_id": "python.django.security.django-no-csrf-token.django-no-csrf-token",
+      "rule": "django-no-csrf-token",
+      "severity": "WARNING",
+      "severity_label": "Medium",
+      "file": "portal/templates/message_new.html",
+      "line": 8,
+      "end_line": 22,
+      "message": "Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.",
+      "cwe": [
+        "CWE-352: Cross-Site Request Forgery (CSRF)"
+      ],
+      "owasp": [],
+      "confidence": "MEDIUM",
+      "likelihood": "MEDIUM",
+      "impact": "MEDIUM",
+      "subcategory": "audit",
+      "vulnerability_class": "Cross-Site Request Forgery (CSRF)",
+      "references": [
+        "https://docs.djangoproject.com/en/4.2/howto/csrf/"
+      ],
+      "rule_url": "https://sg.run/N0Bp",
+      "verdict": "False positive",
+      "triage_reason": "This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check 'Login POST without CSRF token rejected' returns HTTP 400).",
+      "remediation": "No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token)."
+    },
+    {
+      "rule_id": "python.django.security.django-no-csrf-token.django-no-csrf-token",
+      "rule": "django-no-csrf-token",
+      "severity": "WARNING",
+      "severity_label": "Medium",
+      "file": "portal/templates/mfa_setup.html",
+      "line": 17,
+      "end_line": 23,
+      "message": "Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.",
+      "cwe": [
+        "CWE-352: Cross-Site Request Forgery (CSRF)"
+      ],
+      "owasp": [],
+      "confidence": "MEDIUM",
+      "likelihood": "MEDIUM",
+      "impact": "MEDIUM",
+      "subcategory": "audit",
+      "vulnerability_class": "Cross-Site Request Forgery (CSRF)",
+      "references": [
+        "https://docs.djangoproject.com/en/4.2/howto/csrf/"
+      ],
+      "rule_url": "https://sg.run/N0Bp",
+      "verdict": "False positive",
+      "triage_reason": "This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check 'Login POST without CSRF token rejected' returns HTTP 400).",
+      "remediation": "No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token)."
+    },
+    {
+      "rule_id": "python.django.security.django-no-csrf-token.django-no-csrf-token",
+      "rule": "django-no-csrf-token",
+      "severity": "WARNING",
+      "severity_label": "Medium",
+      "file": "portal/templates/profile.html",
+      "line": 15,
+      "end_line": 24,
+      "message": "Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.",
+      "cwe": [
+        "CWE-352: Cross-Site Request Forgery (CSRF)"
+      ],
+      "owasp": [],
+      "confidence": "MEDIUM",
+      "likelihood": "MEDIUM",
+      "impact": "MEDIUM",
+      "subcategory": "audit",
+      "vulnerability_class": "Cross-Site Request Forgery (CSRF)",
+      "references": [
+        "https://docs.djangoproject.com/en/4.2/howto/csrf/"
+      ],
+      "rule_url": "https://sg.run/N0Bp",
+      "verdict": "False positive",
+      "triage_reason": "This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check 'Login POST without CSRF token rejected' returns HTTP 400).",
+      "remediation": "No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token)."
+    },
+    {
+      "rule_id": "python.django.security.django-no-csrf-token.django-no-csrf-token",
+      "rule": "django-no-csrf-token",
+      "severity": "WARNING",
+      "severity_label": "Medium",
+      "file": "portal/templates/profile.html",
+      "line": 31,
+      "end_line": 38,
+      "message": "Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.",
+      "cwe": [
+        "CWE-352: Cross-Site Request Forgery (CSRF)"
+      ],
+      "owasp": [],
+      "confidence": "MEDIUM",
+      "likelihood": "MEDIUM",
+      "impact": "MEDIUM",
+      "subcategory": "audit",
+      "vulnerability_class": "Cross-Site Request Forgery (CSRF)",
+      "references": [
+        "https://docs.djangoproject.com/en/4.2/howto/csrf/"
+      ],
+      "rule_url": "https://sg.run/N0Bp",
+      "verdict": "False positive",
+      "triage_reason": "This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check 'Login POST without CSRF token rejected' returns HTTP 400).",
+      "remediation": "No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token)."
+    },
+    {
+      "rule_id": "python.django.security.django-no-csrf-token.django-no-csrf-token",
+      "rule": "django-no-csrf-token",
+      "severity": "WARNING",
+      "severity_label": "Medium",
+      "file": "portal/templates/profile.html",
+      "line": 48,
+      "end_line": 53,
+      "message": "Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.",
+      "cwe": [
+        "CWE-352: Cross-Site Request Forgery (CSRF)"
+      ],
+      "owasp": [],
+      "confidence": "MEDIUM",
+      "likelihood": "MEDIUM",
+      "impact": "MEDIUM",
+      "subcategory": "audit",
+      "vulnerability_class": "Cross-Site Request Forgery (CSRF)",
+      "references": [
+        "https://docs.djangoproject.com/en/4.2/howto/csrf/"
+      ],
+      "rule_url": "https://sg.run/N0Bp",
+      "verdict": "False positive",
+      "triage_reason": "This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check 'Login POST without CSRF token rejected' returns HTTP 400).",
+      "remediation": "No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token)."
+    },
+    {
+      "rule_id": "python.django.security.django-no-csrf-token.django-no-csrf-token",
+      "rule": "django-no-csrf-token",
+      "severity": "WARNING",
+      "severity_label": "Medium",
+      "file": "portal/templates/profile.html",
+      "line": 68,
+      "end_line": 71,
+      "message": "Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.",
+      "cwe": [
+        "CWE-352: Cross-Site Request Forgery (CSRF)"
+      ],
+      "owasp": [],
+      "confidence": "MEDIUM",
+      "likelihood": "MEDIUM",
+      "impact": "MEDIUM",
+      "subcategory": "audit",
+      "vulnerability_class": "Cross-Site Request Forgery (CSRF)",
+      "references": [
+        "https://docs.djangoproject.com/en/4.2/howto/csrf/"
+      ],
+      "rule_url": "https://sg.run/N0Bp",
+      "verdict": "False positive",
+      "triage_reason": "This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check 'Login POST without CSRF token rejected' returns HTTP 400).",
+      "remediation": "No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token)."
+    }
+  ],
+  "errors": [
+    {
+      "type": "['PartialParsing', [{'path': 'portal/templates/assignment_detail.html', 'start':",
+      "message": "Syntax error at line portal/templates/assignment_detail.html:1:"
+    },
+    {
+      "type": "['PartialParsing', [{'path': 'portal/templates/assignments.html', 'start': {'lin",
+      "message": "Syntax error at line portal/templates/assignments.html:1:"
+    },
+    {
+      "type": "['PartialParsing', [{'path': 'portal/templates/dashboard.html', 'start': {'line'",
+      "message": "Syntax error at line portal/templates/dashboard.html:1:"
+    },
+    {
+      "type": "['PartialParsing', [{'path': 'portal/templates/error.html', 'start': {'line': 1,",
+      "message": "Syntax error at line portal/templates/error.html:1:"
+    },
+    {
+      "type": "['PartialParsing', [{'path': 'portal/templates/login_mfa.html', 'start': {'line'",
+      "message": "Syntax error at line portal/templates/login_mfa.html:1:"
+    },
+    {
+      "type": "['PartialParsing', [{'path': 'portal/templates/message_new.html', 'start': {'lin",
+      "message": "Syntax error at line portal/templates/message_new.html:1:"
+    },
+    {
+      "type": "['PartialParsing', [{'path': 'portal/templates/message_view.html', 'start': {'li",
+      "message": "Syntax error at line portal/templates/message_view.html:1:"
+    },
+    {
+      "type": "['PartialParsing', [{'path': 'portal/templates/messages.html', 'start': {'line':",
+      "message": "Syntax error at line portal/templates/messages.html:1:"
+    },
+    {
+      "type": "['PartialParsing', [{'path': 'portal/templates/profile.html', 'start': {'line': ",
+      "message": "Syntax error at line portal/templates/profile.html:1:"
+    }
+  ]
+}

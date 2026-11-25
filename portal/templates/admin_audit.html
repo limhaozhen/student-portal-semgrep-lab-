@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Audit log{% endblock %}
+{% block content %}
+<h1>Audit log</h1>
+{% if chain_ok %}
+<div class="alert alert-success">Hash chain intact: {{ checked }} entries verified. No record has been altered or removed.</div>
+{% else %}
+<div class="alert alert-error">Hash chain BROKEN at entry #{{ bad_id }} — the log has been tampered with after {{ checked }} valid entries.</div>
+{% endif %}
+<form method="get" class="filters">
+  <label>Action starts with <input name="action" value="{{ f.action }}" placeholder="login."></label>
+  <label>Username <input name="user" value="{{ f.user }}"></label>
+  <label>Outcome
+    <select name="outcome">
+      <option value="">any</option>
+      {% for o in ('success', 'failure', 'info') %}<option value="{{ o }}" {% if f.outcome == o %}selected{% endif %}>{{ o }}</option>{% endfor %}
+    </select>
+  </label>
+  <button type="submit" class="btn btn-ghost btn-sm">Filter</button>
+</form>
+<section class="card">
+  <div class="table-wrap"><table class="dense">
+    <thead><tr><th>#</th><th>Time</th><th>User</th><th>IP</th><th>Action</th><th>Outcome</th><th>Target</th><th>Detail</th></tr></thead>
+    <tbody>
+    {% for r in rows %}
+      <tr>
+        <td>{{ r.id }}</td><td>{{ r.ts|dt }}</td><td>{{ r.username or '-' }}</td><td>{{ r.ip }}</td>
+        <td><code>{{ r.action }}</code></td>
+        <td><span class="badge {{ 'ok' if r.outcome == 'success' else ('danger' if r.outcome == 'failure' else '') }}">{{ r.outcome }}</span></td>
+        <td>{{ r.target or '' }}</td><td>{{ r.detail or '' }}</td>
+      </tr>
+    {% else %}
+      <tr><td colspan="8" class="muted">No matching events.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+  <p class="hint">Showing the latest 300 matching events. The log is append-only (database triggers) and SHA-256 hash-chained.</p>
+</section>
+{% endblock %}

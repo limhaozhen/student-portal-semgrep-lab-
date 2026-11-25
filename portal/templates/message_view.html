@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{{ m.subject }}{% endblock %}
+{% block content %}
+<p class="crumbs"><a href="{{ url_for('messages.index') }}">Messages</a></p>
+<section class="card">
+  <h1 class="h2">{{ m.subject }}</h1>
+  <dl class="meta">
+    <div><dt>From</dt><dd>{{ m.sender_name }} <span class="badge role-{{ m.sender_role }}">verified {{ m.sender_role }}</span></dd></div>
+    <div><dt>To</dt><dd>{{ m.recipient_name }}</dd></div>
+    <div><dt>Sent</dt><dd>{{ m.created_at|dt }}</dd></div>
+  </dl>
+  <div class="message-body prewrap">{{ m.body }}</div>
+  <p class="notice">Links are shown as plain text. Never enter your password on a site linked from a message.</p>
+  {% if m.recipient_id == g.user.id %}
+  <a class="btn btn-primary" href="{{ url_for('messages.compose', reply=m.id) }}">Reply</a>
+  {% endif %}
+</section>
+{% endblock %}

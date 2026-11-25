@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Set up MFA{% endblock %}
+{% block content %}
+<h1>Set up multi-factor authentication</h1>
+{% if enforced %}<p class="muted">MFA is mandatory for {{ g.user.role }} accounts.</p>{% endif %}
+<div class="grid-2">
+  <div class="card">
+    <h2>1. Scan the QR code</h2>
+    <p>Use Google Authenticator, Microsoft Authenticator, Authy or any TOTP app.</p>
+    <div class="qr">{{ qr_svg }}</div>
+    <p class="hint">Can't scan? Enter this key manually:</p>
+    <code class="secret">{{ secret }}</code>
+  </div>
+  <div class="card">
+    <h2>2. Confirm a code</h2>
+    {% if error %}<div class="alert alert-error" role="alert">{{ error }}</div>{% endif %}
+    <form method="post" class="stack">
+      {{ csrf_field() }}
+      <label>6-digit code
+        <input name="code" inputmode="numeric" pattern="[0-9 ]{6,7}" maxlength="7" autocomplete="one-time-code" required autofocus>
+      </label>
+      <button type="submit" class="btn btn-primary">Enable MFA</button>
+    </form>
+    <p class="hint">Codes change every 30 seconds and each code works only once.</p>
+  </div>
+</div>
+{% endblock %}

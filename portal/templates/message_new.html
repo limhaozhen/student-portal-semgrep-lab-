@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}New message{% endblock %}
+{% block content %}
+<p class="crumbs"><a href="{{ url_for('messages.index') }}">Messages</a> / New</p>
+<h1>New message</h1>
+<section class="card">
+  {% if contacts %}
+  <form method="post" action="{{ url_for('messages.compose') }}" class="stack">
+    {{ csrf_field() }}
+    <label>To
+      <select name="to" required>
+        <option value="">Choose a recipient</option>
+        {% for c in contacts %}
+        <option value="{{ c.id }}" {% if form.to == c.id %}selected{% endif %}>{{ c.full_name }} ({{ c.role }} · {{ c.courses }})</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Subject <input name="subject" value="{{ form.subject }}" required maxlength="120"></label>
+    <label>Message <textarea name="body" rows="8" required maxlength="5000">{{ form.body }}</textarea></label>
+    <p class="hint">Plain text only. You can message {{ 'lecturers of your courses' if g.user.role == 'student' else 'students enrolled in your courses' }}.</p>
+    <div><button type="submit" class="btn btn-primary">Send</button></div>
+  </form>
+  {% else %}
+  <p class="muted">You have no contacts yet. Contacts come from your course enrolments.</p>
+  {% endif %}
+</section>
+{% endblock %}

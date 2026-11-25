@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Sign in{% endblock %}
+{% block content %}
+<section class="auth-wrap">
+  <div class="card auth-card">
+    <h1>Sign in</h1>
+    <p class="muted">Use your university username and password.</p>
+    {% if error %}<div class="alert alert-error" role="alert">{{ error }}</div>{% endif %}
+    <form method="post" action="{{ url_for('auth.login') }}" class="stack">
+      {{ csrf_field() }}
+      <label>Username
+        <input name="username" value="{{ username }}" required maxlength="64" autocomplete="username" autocapitalize="none" spellcheck="false" autofocus>
+      </label>
+      <label>Password
+        <input type="password" name="password" required maxlength="128" autocomplete="current-password">
+      </label>
+      {% if need_captcha %}
+      <div class="captcha">
+        <img src="{{ url_for('auth.captcha', v=captcha_v) }}" width="190" height="64" alt="CAPTCHA image with five characters">
+        <label>Type the characters shown above
+          <input name="captcha" required maxlength="8" autocomplete="off" autocapitalize="characters" spellcheck="false">
+        </label>
+        <p class="hint">Shown after repeated failed attempts. Reload the page for a new image.</p>
+      </div>
+      {% endif %}
+      <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+    </form>
+    <p class="notice">Staff will never ask for your password. Report suspicious messages to the IT help desk.</p>
+  </div>
+</section>
+{% endblock %}

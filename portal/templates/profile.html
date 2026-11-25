@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<h1>Profile</h1>
+<div class="grid-2">
+  <section class="card">
+    <h2>Personal information</h2>
+    <dl class="meta">
+      <div><dt>Name</dt><dd>{{ g.user.full_name }}</dd></div>
+      <div><dt>Username</dt><dd>{{ g.user.username }}</dd></div>
+      <div><dt>{{ 'Matric no.' if g.user.role == 'student' else 'Staff no.' }}</dt><dd>{{ p.id_number }}</dd></div>
+      <div><dt>Role</dt><dd><span class="badge role-{{ g.user.role }}">{{ g.user.role }}</span></dd></div>
+    </dl>
+    <p class="hint">Name, ID number and role are managed by the registry and cannot be changed here.</p>
+    <form method="post" action="{{ url_for('profile.update') }}" class="stack">
+      {{ csrf_field() }}
+      <label>Email <input type="email" name="email" value="{{ p.email }}" required maxlength="254" autocomplete="email"></label>
+      <label>Phone <input type="tel" name="phone" value="{{ p.phone or '' }}" maxlength="20" autocomplete="tel"></label>
+      <label>Address <input name="address" value="{{ p.address or '' }}" maxlength="200" autocomplete="street-address"></label>
+      <label>Current password <span class="muted">(required only when changing email)</span>
+        <input type="password" name="current_password" maxlength="128" autocomplete="current-password">
+      </label>
+      <div><button type="submit" class="btn btn-primary">Save changes</button></div>
+    </form>
+    <p class="hint">Last updated {{ p.updated_at|dt }}. A confirmation is emailed to your current address after every change.</p>
+  </section>
+
+  <div>
+    <section class="card">
+      <h2>Change password</h2>
+      <form method="post" action="{{ url_for('profile.change_password') }}" class="stack">
+        {{ csrf_field() }}
+        <label>Current password <input type="password" name="current_password" required maxlength="128" autocomplete="current-password"></label>
+        <label>New password <input type="password" name="new_password" required minlength="{{ min_len }}" maxlength="128" autocomplete="new-password"></label>
+        <label>Repeat new password <input type="password" name="confirm_password" required minlength="{{ min_len }}" maxlength="128" autocomplete="new-password"></label>
+        <p class="hint">At least {{ min_len }} characters. Long passphrases are encouraged; no special-character rules.</p>
+        <div><button type="submit" class="btn btn-primary">Change password</button></div>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Multi-factor authentication</h2>
+      {% if g.user.mfa_enabled %}
+        <p><span class="badge ok">Enabled</span> Your account is protected by an authenticator app.</p>
+        {% if not mfa_enforced %}
+        <details>
+          <summary>Disable MFA</summary>
+          <form method="post" action="{{ url_for('profile.mfa_disable') }}" class="stack">
+            {{ csrf_field() }}
+            <label>Current password <input type="password" name="current_password" required maxlength="128" autocomplete="current-password"></label>
+            <label>Authenticator code <input name="code" inputmode="numeric" maxlength="7" required autocomplete="one-time-code"></label>
+            <div><button type="submit" class="btn btn-danger btn-sm">Disable MFA</button></div>
+          </form>
+        </details>
+        {% else %}<p class="hint">MFA is mandatory for your role.</p>{% endif %}
+      {% else %}
+        <p><span class="badge warn">Not enabled</span> Add a second factor to protect your account.</p>
+        <a class="btn btn-primary" href="{{ url_for('auth.mfa_setup') }}">Set up MFA</a>
+      {% endif %}
+    </section>
+  </div>
+</div>
+
+<section class="card">
+  <div class="card-head">
+    <h2>Active sessions</h2>
+    {% if sessions|length > 1 %}
+    <form method="post" action="{{ url_for('profile.revoke_sessions') }}" class="inline">
+      {{ csrf_field() }}
+      <button type="submit" class="btn btn-ghost btn-sm">Sign out all other sessions</button>
+    </form>
+    {% endif %}
+  </div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Device</th><th>IP address</th><th>Signed in</th><th>Last active</th></tr></thead>
+    <tbody>
+    {% for s in sessions %}
+      <tr><td>{{ (s.user_agent or 'Unknown')[:80] }}{% if s.sid_hash == current_sid %} <span class="badge ok">this device</span>{% endif %}</td>
+        <td>{{ s.ip }}</td><td>{{ s.created_at|dt }}</td><td>{{ s.last_seen|dt }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+</section>
+{% endblock %}

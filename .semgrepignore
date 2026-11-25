@@ -1,0 +1,22 @@
+# Paths Semgrep should NOT scan. (A .semgrepignore replaces Semgrep's built-in
+# defaults, so the usual ones are repeated here.)
+
+# Python virtual environments / third-party code
+.venv/
+venv/
+env/
+__pycache__/
+node_modules/
+build/
+dist/
+vendor/
+
+# Runtime data created by the app (database, uploads, logs, secret key)
+instance/
+
+# Generated TLS certificate and private key
+certs/
+
+# Scan output files
+semgrep-results.*
+semgrep-report.*

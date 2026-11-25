@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SAST Report - UniPortal Student Web Portal (Semgrep)</title>
+<style>
+:root{--bg:#f5f6f9;--card:#fff;--text:#1c2230;--muted:#5e6779;--border:#dde1ea;--code:#f3f4f8;--hit:#fff4cc;
+--crit:#7a1020;--high:#b42318;--med:#a15c00;--low:#2459a8;--tp:#b42318;--fp:#11703f;--ar:#6b4bb5;--nt:#5e6779}
+@media (prefers-color-scheme:dark){:root{--bg:#10141b;--card:#171c25;--text:#e4e8ef;--muted:#9aa3b4;--border:#2b3341;
+--code:#1d2330;--hit:#3a3214;--crit:#ff8a99;--high:#ff7b6e;--med:#f2b24c;--low:#7fb0ff;--tp:#ff7b6e;--fp:#5fd39a;--ar:#b9a3ff;--nt:#9aa3b4}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:24px 16px 48px}h1{margin:0 0 4px;font-size:24px}h2{margin:32px 0 10px;font-size:18px}
+.muted{color:var(--muted)}code{font-family:ui-monospace,"DejaVu Sans Mono",Menlo,monospace;font-size:12.5px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:16px 0}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px}.k{color:var(--muted);font-size:12px}.v{font-size:26px;font-weight:650}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top}th{color:var(--muted);font-size:12px;font-weight:600}
+td.n{text-align:right;font-variant-numeric:tabular-nums}.wrap{overflow-x:auto}
+.sev,.verdict{display:inline-block;padding:1px 8px;border-radius:99px;font-size:11.5px;font-weight:650;border:1px solid currentColor;margin-right:6px;white-space:nowrap}
+.crit{color:var(--crit)}.high{color:var(--high)}.med{color:var(--med)}.low{color:var(--low)}
+.verdict.tp{color:var(--tp)}.verdict.fp{color:var(--fp)}.verdict.ar{color:var(--ar)}.verdict.nt{color:var(--nt)}
+.finding{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;margin:12px 0;break-inside:avoid}
+.finding header{display:flex;flex-wrap:wrap;align-items:center;gap:4px}.idx{font-weight:700;margin-right:6px}.rid{overflow-wrap:anywhere}
+.loc{margin:6px 0}pre.code{background:var(--code);border-radius:8px;padding:8px 0;overflow-x:auto;margin:8px 0}
+.ln{white-space:pre;padding:0 10px;font-family:ui-monospace,"DejaVu Sans Mono",Menlo,monospace;font-size:12.5px}.ln.hit{background:var(--hit)}
+.no{display:inline-block;width:42px;color:var(--muted);user-select:none}.kv th{width:210px}.kv{font-size:13px}
+ul{margin:4px 0;padding-left:20px}a{color:var(--low);overflow-wrap:anywhere}
+@media print{body{background:#fff}.finding,table,.card{border-color:#ccc}a{color:#000}}
+</style></head><body><main>
+<h1>SAST Report - UniPortal Student Web Portal (Semgrep)</h1>
+<p class="muted">Target: <code>student-portal</code> &middot; Semgrep 1.186.0 &middot; Report generated 2026-11-20 02:40</p>
+
+<h2>1. Executive summary</h2>
+<div class="cards">
+  <div class="card"><div class="k">Total findings</div><div class="v">20</div></div>
+  <div class="card"><div class="k">High</div><div class="v">3</div></div><div class="card"><div class="k">Medium</div><div class="v">17</div></div>
+  <div class="card"><div class="k">Affected files</div><div class="v">11</div></div>
+  <div class="card"><div class="k">Files scanned</div><div class="v">49</div></div>
+  <div class="card"><div class="k">Need action</div><div class="v">0</div></div>
+</div>
+<p>"Need action" counts findings that are true positives or not yet triaged. False positives and accepted risks are
+listed with the reason in section 6.</p>
+
+<h2>2. Findings by severity and triage verdict</h2>
+<div class="wrap"><table><tr><th>Verdict</th><th class="n">Findings</th></tr><tr><td><span class="verdict fp">False positive</span></td><td class='n'>18</td></tr><tr><td><span class="verdict fp">False positive (mitigated)</span></td><td class='n'>1</td></tr><tr><td><span class="verdict ar">Accepted risk (low)</span></td><td class='n'>1</td></tr></table></div>
+
+<h2>3. Affected files</h2>
+<div class="wrap"><table><tr><th>File</th><th class="n">Findings</th></tr><tr><td><code>portal/templates/profile.html</code></td><td class='n'>4</td></tr><tr><td><code>portal/assignments.py</code></td><td class='n'>3</td></tr><tr><td><code>portal/templates/admin_users.html</code></td><td class='n'>3</td></tr><tr><td><code>portal/auth.py</code></td><td class='n'>2</td></tr><tr><td><code>portal/templates/assignment_detail.html</code></td><td class='n'>2</td></tr><tr><td><code>portal/templates/assignments.html</code></td><td class='n'>1</td></tr><tr><td><code>portal/templates/base.html</code></td><td class='n'>1</td></tr><tr><td><code>portal/templates/login.html</code></td><td class='n'>1</td></tr><tr><td><code>portal/templates/login_mfa.html</code></td><td class='n'>1</td></tr><tr><td><code>portal/templates/message_new.html</code></td><td class='n'>1</td></tr><tr><td><code>portal/templates/mfa_setup.html</code></td><td class='n'>1</td></tr></table></div>
+
+<h2>4. Most important rule IDs</h2>
+<div class="wrap"><table><tr><th>Severity</th><th>Rule ID</th><th class="n">Count</th><th>CWE</th><th>Verdict</th></tr><tr><td><span class="sev high">High</span></td><td><code>python.django.security.injection.tainted-sql-string.tainted-sql-string</code></td><td class='n'>1</td><td>CWE-915: Improperly Controlled Modification of Dynamically-Determined Object Attributes</td><td><span class="verdict fp">False positive</span></td></tr><tr><td><span class="sev high">High</span></td><td><code>python.flask.security.injection.nan-injection.nan-injection</code></td><td class='n'>1</td><td>CWE-704: Incorrect Type Conversion or Cast</td><td><span class="verdict fp">False positive (mitigated)</span></td></tr><tr><td><span class="sev high">High</span></td><td><code>python.flask.security.injection.tainted-sql-string.tainted-sql-string</code></td><td class='n'>1</td><td>CWE-704: Incorrect Type Conversion or Cast</td><td><span class="verdict fp">False positive</span></td></tr><tr><td><span class="sev med">Medium</span></td><td><code>python.django.security.django-no-csrf-token.django-no-csrf-token</code></td><td class='n'>15</td><td>CWE-352: Cross-Site Request Forgery (CSRF)</td><td><span class="verdict fp">False positive</span></td></tr><tr><td><span class="sev med">Medium</span></td><td><code>python.flask.security.audit.xss.make-response-with-unknown-content.make-response-with-unknown-content</code></td><td class='n'>1</td><td>CWE-79: Improper Neutralization of Input During Web Page Generation (&#x27;Cross-site Scripting&#x27;)</td><td><span class="verdict fp">False positive</span></td></tr><tr><td><span class="sev med">Medium</span></td><td><code>python.flask.security.xss.audit.explicit-unescape-with-markup.explicit-unescape-with-markup</code></td><td class='n'>1</td><td>CWE-79: Improper Neutralization of Input During Web Page Generation (&#x27;Cross-site Scripting&#x27;)</td><td><span class="verdict ar">Accepted risk (low)</span></td></tr></table></div>
+
+<h2>5. Remediation focus</h2>
+<ul><li><strong>tainted-sql-string</strong> (1&times;, High, False positive): No code change needed. If you want a clean scan, reword the log message or add &#x27;# nosemgrep: tainted-sql-string&#x27; with this justification.</li><li><strong>nan-injection</strong> (1&times;, High, False positive (mitigated)): Keep the isfinite() guard on every float() of user input. Optional: validate the raw text with a strict regex such as ^\d{1,4}(\.\d{1,2})?$ before converting.</li><li><strong>tainted-sql-string</strong> (1&times;, High, False positive): No code change needed. If you want a clean scan, reword the log message or add &#x27;# nosemgrep: tainted-sql-string&#x27; with this justification.</li><li><strong>django-no-csrf-token</strong> (15&times;, Medium, False positive): No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token).</li><li><strong>make-response-with-unknown-content</strong> (1&times;, Medium, False positive): No change needed. Keep the explicit mimetype and the CSP header.</li><li><strong>explicit-unescape-with-markup</strong> (1&times;, Medium, Accepted risk (low)): Optional hardening: serve the QR code from a separate /mfa/qr.svg route and show it with an &lt;img&gt; tag, so Markup() is no longer needed.</li></ul>
+
+<h2>6. Detailed findings</h2>
+
+<article class="finding" id="f1">
+  <header><span class="idx">#1</span><span class="sev high">High</span><span class="verdict fp">False positive</span>
+    <code class="rid">python.django.security.injection.tainted-sql-string.tainted-sql-string</code></header>
+  <p class="loc"><code>portal/assignments.py:146</code> &middot; <a href="https://sg.run/PbZp">rule</a></p>
+  <pre class="code"><div class="ln"><span class="no">144</span>    course_id = form.get(&quot;course_id&quot;, type=int)</div><div class="ln"><span class="no">145</span>    if course_id not in {c[&quot;id&quot;] for c in lecturer_courses(g.user[&quot;id&quot;])}:</div><div class="ln hit"><span class="no">146</span>        security.deny(f&quot;create assignment in course {course_id}&quot;)</div><div class="ln"><span class="no">147</span> </div><div class="ln"><span class="no">148</span>    title = (form.get(&quot;title&quot;) or &quot;&quot;).strip()</div></pre>
+  <table class="kv">
+    <tr><th>Message</th><td>Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the database. Instead, use a parameterized query which is available by default in most database engines. Alternatively, consider using the Django object-relational mappers (ORM) instead of raw SQL queries.</td></tr>
+    <tr><th>CWE</th><td>CWE-915: Improperly Controlled Modification of Dynamically-Determined Object Attributes</td></tr>
+    <tr><th>OWASP</th><td>A08:2021 - Software and Data Integrity Failures; A08:2025 - Software or Data Integrity Failures</td></tr>
+    <tr><th>Confidence / Likelihood / Impact</th><td>LOW / MEDIUM / LOW</td></tr>
+    <tr><th>Rule type</th><td>audit &middot; Mass Assignment</td></tr>
+    <tr><th>Triage</th><td>The flagged line is security.deny(f&quot;create assignment in course {course_id}&quot;) - an audit-log message, not SQL. The rule matched because the text starts with the SQL keyword &#x27;create&#x27;. course_id is already converted to int (type=int), and every real query in db.py uses ? placeholders.</td></tr>
+    <tr><th>Remediation</th><td>No code change needed. If you want a clean scan, reword the log message or add &#x27;# nosemgrep: tainted-sql-string&#x27; with this justification.</td></tr>
+    <tr><th>References</th><td><ul><li><a href="https://docs.djangoproject.com/en/3.0/topics/security/#sql-injection-protection">https://docs.djangoproject.com/en/3.0/topics/security/#sql-injection-protection</a></li></ul></td></tr>
+  </table>
+</article>
+<article class="finding" id="f2">
+  <header><span class="idx">#2</span><span class="sev high">High</span><span class="verdict fp">False positive</span>
+    <code class="rid">python.flask.security.injection.tainted-sql-string.tainted-sql-string</code></header>
+  <p class="loc"><code>portal/assignments.py:146</code> &middot; <a href="https://sg.run/JxZj">rule</a></p>
+  <pre class="code"><div class="ln"><span class="no">144</span>    course_id = form.get(&quot;course_id&quot;, type=int)</div><div class="ln"><span class="no">145</span>    if course_id not in {c[&quot;id&quot;] for c in lecturer_courses(g.user[&quot;id&quot;])}:</div><div class="ln hit"><span class="no">146</span>        security.deny(f&quot;create assignment in course {course_id}&quot;)</div><div class="ln"><span class="no">147</span> </div><div class="ln"><span class="no">148</span>    title = (form.get(&quot;title&quot;) or &quot;&quot;).strip()</div></pre>
+  <table class="kv">
+    <tr><th>Message</th><td>Detected user input used to manually construct a SQL string. This is usually bad practice because manual construction could accidentally result in a SQL injection. An attacker could use a SQL injection to steal or modify contents of the database. Instead, use a parameterized query which is available by default in most database engines. Alternatively, consider using an object-relational mapper (ORM) such as SQLAlchemy which will protect your queries.</td></tr>
+    <tr><th>CWE</th><td>CWE-704: Incorrect Type Conversion or Cast</td></tr>
+    <tr><th>OWASP</th><td>A01:2017 - Injection; A03:2021 - Injection; A05:2025 - Injection</td></tr>
+    <tr><th>Confidence / Likelihood / Impact</th><td>MEDIUM / MEDIUM / MEDIUM</td></tr>
+    <tr><th>Rule type</th><td>vuln &middot; Improper Validation</td></tr>
+    <tr><th>Triage</th><td>The flagged line is security.deny(f&quot;create assignment in course {course_id}&quot;) - an audit-log message, not SQL. The rule matched because the text starts with the SQL keyword &#x27;create&#x27;. course_id is already converted to int (type=int), and every real query in db.py uses ? placeholders.</td></tr>
+    <tr><th>Remediation</th><td>No code change needed. If you want a clean scan, reword the log message or add &#x27;# nosemgrep: tainted-sql-string&#x27; with this justification.</td></tr>
+    <tr><th>References</th><td><ul><li><a href="https://docs.sqlalchemy.org/en/14/core/tutorial.html#using-textual-sql">https://docs.sqlalchemy.org/en/14/core/tutorial.html#using-textual-sql</a></li><li><a href="https://www.tutorialspoint.com/sqlalchemy/sqlalchemy_quick_guide.htm">https://www.tutorialspoint.com/sqlalchemy/sqlalchemy_quick_guide.htm</a></li><li><a href="https://docs.sqlalchemy.org/en/14/core/tutorial.html#using-more-specific-text-with-table-expression-literal-column-and-expression-column">https://docs.sqlalchemy.org/en/14/core/tutorial.html#using-more-specific-text-with-table-expression-literal-column-and-expression-column</a></li></ul></td></tr>
+  </table>
+</article>
+<article class="finding" id="f3">
+  <header><span class="idx">#3</span><span class="sev high">High</span><span class="verdict fp">False positive (mitigated)</span>
+    <code class="rid">python.flask.security.injection.nan-injection.nan-injection</code></header>
+  <p class="loc"><code>portal/assignments.py:299</code> &middot; <a href="https://sg.run/e598">rule</a></p>
+  <pre class="code"><div class="ln"><span class="no">297</span>    feedback = (request.form.get(&quot;feedback&quot;) or &quot;&quot;).strip()</div><div class="ln"><span class="no">298</span>    try:</div><div class="ln hit"><span class="no">299</span>        score = float(request.form.get(&quot;score&quot;, &quot;&quot;))</div><div class="ln"><span class="no">300</span>        if not math.isfinite(score) or not 0 &lt;= score &lt;= s[&quot;max_score&quot;]:</div><div class="ln"><span class="no">301</span>            raise ValueError</div></pre>
+  <table class="kv">
+    <tr><th>Message</th><td>Found user input going directly into typecast for bool(), float(), or complex(). This allows an attacker to inject Python&#x27;s not-a-number (NaN) into the typecast. This results in undefind behavior, particularly when doing comparisons. Either cast to a different type, or add a guard checking for all capitalizations of the string &#x27;nan&#x27;.</td></tr>
+    <tr><th>CWE</th><td>CWE-704: Incorrect Type Conversion or Cast</td></tr>
+    <tr><th>OWASP</th><td>-</td></tr>
+    <tr><th>Confidence / Likelihood / Impact</th><td>MEDIUM / MEDIUM / MEDIUM</td></tr>
+    <tr><th>Rule type</th><td>vuln &middot; Improper Validation</td></tr>
+    <tr><th>Triage</th><td>float(request.form[&#x27;score&#x27;]) is followed immediately by math.isfinite() and a 0..max_score range check, so &#x27;nan&#x27;, &#x27;inf&#x27; and out-of-range values raise ValueError and are rejected with an error message (tested: score 999 is refused).</td></tr>
+    <tr><th>Remediation</th><td>Keep the isfinite() guard on every float() of user input. Optional: validate the raw text with a strict regex such as ^\d{1,4}(\.\d{1,2})?$ before converting.</td></tr>
+    <tr><th>References</th><td><ul><li><a href="https://discuss.python.org/t/nan-breaks-min-max-and-sorting-functions-a-solution/2868">https://discuss.python.org/t/nan-breaks-min-max-and-sorting-functions-a-solution/2868</a></li><li><a href="https://blog.bitdiscovery.com/2021/12/python-nan-injection/">https://blog.bitdiscovery.com/2021/12/python-nan-injection/</a></li></ul></td></tr>
+  </table>
+</article>
+<article class="finding" id="f4">
+  <header><span class="idx">#4</span><span class="sev med">Medium</span><span class="verdict fp">False positive</span>
+    <code class="rid">python.flask.security.audit.xss.make-response-with-unknown-content.make-response-with-unknown-content</code></header>
+  <p class="loc"><code>portal/auth.py:181</code> &middot; <a href="https://sg.run/3x3p">rule</a></p>
+  <pre class="code"><div class="ln"><span class="no">179</span>    if svg is None:</div><div class="ln"><span class="no">180</span>        abort(404)</div><div class="ln hit"><span class="no">181</span>    response = make_response(svg)</div><div class="ln"><span class="no">182</span>    response.mimetype = &quot;image/svg+xml&quot;</div><div class="ln"><span class="no">183</span>    return response</div></pre>
+  <table class="kv">
+    <tr><th>Message</th><td>Be careful with `flask.make_response()`. If this response is rendered onto a webpage, this could create a cross-site scripting (XSS) vulnerability. `flask.make_response()` will not autoescape HTML. If you are rendering HTML, write your HTML in a template file and use `flask.render_template()` which will take care of escaping. If you are returning data from an API, consider using `flask.jsonify()`.</td></tr>
+    <tr><th>CWE</th><td>CWE-79: Improper Neutralization of Input During Web Page Generation (&#x27;Cross-site Scripting&#x27;)</td></tr>
+    <tr><th>OWASP</th><td>A07:2017 - Cross-Site Scripting (XSS); A03:2021 - Injection; A05:2025 - Injection</td></tr>
+    <tr><th>Confidence / Likelihood / Impact</th><td>LOW / LOW / MEDIUM</td></tr>
+    <tr><th>Rule type</th><td>audit &middot; Cross-Site-Scripting (XSS)</td></tr>
+    <tr><th>Triage</th><td>The response body is the CAPTCHA SVG generated on the server from a fixed character set - no user input reaches it. It is served as image/svg+xml with Content-Security-Policy default-src &#x27;none&#x27; and X-Content-Type-Options nosniff, so it cannot run script.</td></tr>
+    <tr><th>Remediation</th><td>No change needed. Keep the explicit mimetype and the CSP header.</td></tr>
+    <tr><th>References</th><td><ul><li><a href="https://github.com/python-security/pyt//blob/093a077bcf12d1f58ddeb2d73ddc096623985fb0/examples/vulnerable_code/XSS_assign_to_other_var.py#L11">https://github.com/python-security/pyt//blob/093a077bcf12d1f58ddeb2d73ddc096623985fb0/examples/vulnerable_code/XSS_assign_to_other_var.py#L11</a></li><li><a href="https://flask.palletsprojects.com/en/1.1.x/api/#flask.Flask.make_response">https://flask.palletsprojects.com/en/1.1.x/api/#flask.Flask.make_response</a></li><li><a href="https://flask.palletsprojects.com/en/1.1.x/api/#response-objects">https://flask.palletsprojects.com/en/1.1.x/api/#response-objects</a></li></ul></td></tr>
+  </table>
+</article>
+<article class="finding" id="f5">
+  <header><span class="idx">#5</span><span class="sev med">Medium</span><span class="verdict ar">Accepted risk (low)</span>
+    <code class="rid">python.flask.security.xss.audit.explicit-unescape-with-markup.explicit-unescape-with-markup</code></header>
+  <p class="loc"><code>portal/auth.py:240</code> &middot; <a href="https://sg.run/AvZ8">rule</a></p>
+  <pre class="code"><div class="ln"><span class="no">238</span>    image.save(buf)</div><div class="ln"><span class="no">239</span>    svg = buf.getvalue().decode(&quot;utf-8&quot;)</div><div class="ln hit"><span class="no">240</span>    return Markup(svg[svg.index(&quot;&lt;svg&quot;):])  # drop the XML declaration for inline use</div><div class="ln"><span class="no">241</span> </div><div class="ln"><span class="no">242</span> </div></pre>
+  <table class="kv">
+    <tr><th>Message</th><td>Detected explicitly unescaped content using &#x27;Markup()&#x27;. This permits the unescaped data to include unescaped HTML which could result in cross-site scripting. Ensure this data is not externally controlled, or consider rewriting to not use &#x27;Markup()&#x27;.</td></tr>
+    <tr><th>CWE</th><td>CWE-79: Improper Neutralization of Input During Web Page Generation (&#x27;Cross-site Scripting&#x27;)</td></tr>
+    <tr><th>OWASP</th><td>A07:2017 - Cross-Site Scripting (XSS); A03:2021 - Injection; A05:2025 - Injection</td></tr>
+    <tr><th>Confidence / Likelihood / Impact</th><td>LOW / LOW / MEDIUM</td></tr>
+    <tr><th>Rule type</th><td>audit &middot; Cross-Site-Scripting (XSS)</td></tr>
+    <tr><th>Triage</th><td>Markup() marks the QR-code SVG made by the qrcode library as safe HTML. Its input (the username and a random base32 secret) is encoded as QR square geometry, never as text or tags, and the page CSP blocks all scripts.</td></tr>
+    <tr><th>Remediation</th><td>Optional hardening: serve the QR code from a separate /mfa/qr.svg route and show it with an &lt;img&gt; tag, so Markup() is no longer needed.</td></tr>
+    <tr><th>References</th><td><ul><li><a href="https://tedboy.github.io/flask/generated/generated/flask.Markup.html">https://tedboy.github.io/flask/generated/generated/flask.Markup.html</a></li></ul></td></tr>
+  </table>
+</article>
+<article class="finding" id="f6">
+  <header><span class="idx">#6</span><span class="sev med">Medium</span><span class="verdict fp">False positive</span>
+    <code class="rid">python.django.security.django-no-csrf-token.django-no-csrf-token</code></header>
+  <p class="loc"><code>portal/templates/admin_users.html:23</code> &middot; <a href="https://sg.run/N0Bp">rule</a></p>
+  <pre class="code"><div class="ln"><span class="no">21</span>        &lt;td class=&quot;actions&quot;&gt;</div><div class="ln"><span class="no">22</span>          {% if u.locked_for %}</div><div class="ln hit"><span class="no">23</span>          &lt;form method=&quot;post&quot; action=&quot;{{ url_for(&#x27;admin.unlock&#x27;, user_id=u.id) }}&quot; class=&quot;inline&quot;&gt;{{ csrf_field() }}&lt;button class=&quot;btn btn-sm btn-ghost&quot;&gt;Unlock&lt;/button&gt;&lt;/form&gt;</div><div class="ln"><span class="no">24</span>          {% endif %}</div><div class="ln"><span class="no">25</span>          {% if u.mfa_enabled %}</div></pre>
+  <table class="kv">
+    <tr><th>Message</th><td>Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.</td></tr>
+    <tr><th>CWE</th><td>CWE-352: Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>OWASP</th><td>-</td></tr>
+    <tr><th>Confidence / Likelihood / Impact</th><td>MEDIUM / MEDIUM / MEDIUM</td></tr>
+    <tr><th>Rule type</th><td>audit &middot; Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>Triage</th><td>This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check &#x27;Login POST without CSRF token rejected&#x27; returns HTTP 400).</td></tr>
+    <tr><th>Remediation</th><td>No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token).</td></tr>
+    <tr><th>References</th><td><ul><li><a href="https://docs.djangoproject.com/en/4.2/howto/csrf/">https://docs.djangoproject.com/en/4.2/howto/csrf/</a></li></ul></td></tr>
+  </table>
+</article>
+<article class="finding" id="f7">
+  <header><span class="idx">#7</span><span class="sev med">Medium</span><span class="verdict fp">False positive</span>
+    <code class="rid">python.django.security.django-no-csrf-token.django-no-csrf-token</code></header>
+  <p class="loc"><code>portal/templates/admin_users.html:26</code> &middot; <a href="https://sg.run/N0Bp">rule</a></p>
+  <pre class="code"><div class="ln"><span class="no">24</span>          {% endif %}</div><div class="ln"><span class="no">25</span>          {% if u.mfa_enabled %}</div><div class="ln hit"><span class="no">26</span>          &lt;form method=&quot;post&quot; action=&quot;{{ url_for(&#x27;admin.reset_mfa&#x27;, user_id=u.id) }}&quot; class=&quot;inline&quot;&gt;{{ csrf_field() }}&lt;button class=&quot;btn btn-sm btn-ghost&quot;&gt;Reset MFA&lt;/button&gt;&lt;/form&gt;</div><div class="ln"><span class="no">27</span>          {% endif %}</div><div class="ln"><span class="no">28</span>          {% if u.id != g.user.id %}</div></pre>
+  <table class="kv">
+    <tr><th>Message</th><td>Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.</td></tr>
+    <tr><th>CWE</th><td>CWE-352: Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>OWASP</th><td>-</td></tr>
+    <tr><th>Confidence / Likelihood / Impact</th><td>MEDIUM / MEDIUM / MEDIUM</td></tr>
+    <tr><th>Rule type</th><td>audit &middot; Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>Triage</th><td>This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check &#x27;Login POST without CSRF token rejected&#x27; returns HTTP 400).</td></tr>
+    <tr><th>Remediation</th><td>No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token).</td></tr>
+    <tr><th>References</th><td><ul><li><a href="https://docs.djangoproject.com/en/4.2/howto/csrf/">https://docs.djangoproject.com/en/4.2/howto/csrf/</a></li></ul></td></tr>
+  </table>
+</article>
+<article class="finding" id="f8">
+  <header><span class="idx">#8</span><span class="sev med">Medium</span><span class="verdict fp">False positive</span>
+    <code class="rid">python.django.security.django-no-csrf-token.django-no-csrf-token</code></header>
+  <p class="loc"><code>portal/templates/admin_users.html:29</code> &middot; <a href="https://sg.run/N0Bp">rule</a></p>
+  <pre class="code"><div class="ln"><span class="no">27</span>          {% endif %}</div><div class="ln"><span class="no">28</span>          {% if u.id != g.user.id %}</div><div class="ln hit"><span class="no">29</span>          &lt;form method=&quot;post&quot; action=&quot;{{ url_for(&#x27;admin.toggle_active&#x27;, user_id=u.id) }}&quot; class=&quot;inline&quot;&gt;{{ csrf_field() }}&lt;button class=&quot;btn btn-sm {{ &#x27;btn-danger&#x27; if u.is_active else &#x27;btn-ghost&#x27; }}&quot;&gt;{{ &#x27;Disable&#x27; if u.is_active else &#x27;Enable&#x27; }}&lt;/button&gt;&lt;/form&gt;</div><div class="ln"><span class="no">30</span>          {% endif %}</div><div class="ln"><span class="no">31</span>        &lt;/td&gt;</div></pre>
+  <table class="kv">
+    <tr><th>Message</th><td>Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.</td></tr>
+    <tr><th>CWE</th><td>CWE-352: Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>OWASP</th><td>-</td></tr>
+    <tr><th>Confidence / Likelihood / Impact</th><td>MEDIUM / MEDIUM / MEDIUM</td></tr>
+    <tr><th>Rule type</th><td>audit &middot; Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>Triage</th><td>This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check &#x27;Login POST without CSRF token rejected&#x27; returns HTTP 400).</td></tr>
+    <tr><th>Remediation</th><td>No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token).</td></tr>
+    <tr><th>References</th><td><ul><li><a href="https://docs.djangoproject.com/en/4.2/howto/csrf/">https://docs.djangoproject.com/en/4.2/howto/csrf/</a></li></ul></td></tr>
+  </table>
+</article>
+<article class="finding" id="f9">
+  <header><span class="idx">#9</span><span class="sev med">Medium</span><span class="verdict fp">False positive</span>
+    <code class="rid">python.django.security.django-no-csrf-token.django-no-csrf-token</code></header>
+  <p class="loc"><code>portal/templates/assignment_detail.html:36</code> &middot; <a href="https://sg.run/N0Bp">rule</a></p>
+  <pre class="code"><div class="ln"><span class="no">34</span>    &lt;h2&gt;{{ &#x27;Replace submission&#x27; if sub else &#x27;Upload your work&#x27; }}&lt;/h2&gt;</div><div class="ln"><span class="no">35</span>    {% if a.due_at &lt; now_ts %}&lt;div class=&quot;alert alert-warning&quot;&gt;The deadline has passed. Your submission will be marked late and cannot be replaced.&lt;/div&gt;{% endif %}</div><div class="ln hit"><span class="no">36</span>    &lt;form method=&quot;post&quot; action=&quot;{{ url_for(&#x27;assignments.submit&#x27;, assignment_id=a.id) }}&quot; enctype=&quot;multipart/form-data&quot; class=&quot;stack&quot;&gt;</div><div class="ln hit"><span class="no">37</span>      {{ csrf_field() }}</div><div class="ln hit"><span class="no">38</span>      &lt;label&gt;File (PDF, DOCX or TXT, max {{ max_mb }} MB)</div><div class="ln hit"><span class="no">39</span>        &lt;input type=&quot;file&quot; name=&quot;file&quot; accept=&quot;.pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain&quot; required&gt;</div><div class="ln hit"><span class="no">40</span>      &lt;/label&gt;</div><div class="ln hit"><span class="no">41</span>      &lt;p class=&quot;hint&quot;&gt;Files are checked by type and content, scanned for malware, and stored with a random name. You&#x27;ll receive an emailed receipt.&lt;/p&gt;</div><div class="ln hit"><span class="no">42</span>      &lt;div&gt;&lt;button type=&quot;submit&quot; class=&quot;btn btn-primary&quot;&gt;Submit&lt;/button&gt;&lt;/div&gt;</div><div class="ln hit"><span class="no">43</span>    &lt;/form&gt;</div><div class="ln"><span class="no">44</span>  &lt;/section&gt;</div><div class="ln"><span class="no">45</span>  {% elif sub %}</div></pre>
+  <table class="kv">
+    <tr><th>Message</th><td>Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.</td></tr>
+    <tr><th>CWE</th><td>CWE-352: Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>OWASP</th><td>-</td></tr>
+    <tr><th>Confidence / Likelihood / Impact</th><td>MEDIUM / MEDIUM / MEDIUM</td></tr>
+    <tr><th>Rule type</th><td>audit &middot; Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>Triage</th><td>This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check &#x27;Login POST without CSRF token rejected&#x27; returns HTTP 400).</td></tr>
+    <tr><th>Remediation</th><td>No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token).</td></tr>
+    <tr><th>References</th><td><ul><li><a href="https://docs.djangoproject.com/en/4.2/howto/csrf/">https://docs.djangoproject.com/en/4.2/howto/csrf/</a></li></ul></td></tr>
+  </table>
+</article>
+<article class="finding" id="f10">
+  <header><span class="idx">#10</span><span class="sev med">Medium</span><span class="verdict fp">False positive</span>
+    <code class="rid">python.django.security.django-no-csrf-token.django-no-csrf-token</code></header>
+  <p class="loc"><code>portal/templates/assignment_detail.html:64</code> &middot; <a href="https://sg.run/N0Bp">rule</a></p>
+  <pre class="code"><div class="ln"><span class="no">62</span>        &lt;td&gt;&lt;span class=&quot;badge {{ &#x27;ok&#x27; if s.scan_status == &#x27;clean&#x27; else &#x27;warn&#x27; }}&quot; title=&quot;{{ s.scan_detail or &#x27;&#x27; }}&quot;&gt;{{ s.scan_status }}&lt;/span&gt;&lt;/td&gt;</div><div class="ln"><span class="no">63</span>        &lt;td&gt;</div><div class="ln hit"><span class="no">64</span>          &lt;form method=&quot;post&quot; action=&quot;{{ url_for(&#x27;assignments.grade&#x27;, submission_id=s.sub_id) }}&quot; class=&quot;grade-form&quot;&gt;</div><div class="ln hit"><span class="no">65</span>            {{ csrf_field() }}</div><div class="ln hit"><span class="no">66</span>            &lt;input type=&quot;number&quot; name=&quot;score&quot; min=&quot;0&quot; max=&quot;{{ a.max_score }}&quot; step=&quot;0.5&quot; value=&quot;{{ &#x27;%g&#x27;|format(s.score) if s.score is not none else &#x27;&#x27; }}&quot; required aria-label=&quot;Score&quot;&gt;</div><div class="ln hit"><span class="no">67</span>            &lt;span class=&quot;muted&quot;&gt;/ {{ &#x27;%g&#x27;|format(a.max_score) }}&lt;/span&gt;</div><div class="ln hit"><span class="no">68</span>            &lt;textarea name=&quot;feedback&quot; rows=&quot;2&quot; maxlength=&quot;2000&quot; placeholder=&quot;Feedback&quot; aria-label=&quot;Feedback&quot;&gt;{{ s.feedback or &#x27;&#x27; }}&lt;/textarea&gt;</div><div class="ln hit"><span class="no">69</span>            &lt;button type=&quot;submit&quot; class=&quot;btn btn-sm btn-primary&quot;&gt;{{ &#x27;Update&#x27; if s.score is not none else &#x27;Save grade&#x27; }}&lt;/button&gt;</div><div class="ln hit"><span class="no">70</span>          &lt;/form&gt;</div><div class="ln"><span class="no">71</span>        &lt;/td&gt;</div><div class="ln"><span class="no">72</span>        {% else %}</div></pre>
+  <table class="kv">
+    <tr><th>Message</th><td>Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.</td></tr>
+    <tr><th>CWE</th><td>CWE-352: Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>OWASP</th><td>-</td></tr>
+    <tr><th>Confidence / Likelihood / Impact</th><td>MEDIUM / MEDIUM / MEDIUM</td></tr>
+    <tr><th>Rule type</th><td>audit &middot; Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>Triage</th><td>This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check &#x27;Login POST without CSRF token rejected&#x27; returns HTTP 400).</td></tr>
+    <tr><th>Remediation</th><td>No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token).</td></tr>
+    <tr><th>References</th><td><ul><li><a href="https://docs.djangoproject.com/en/4.2/howto/csrf/">https://docs.djangoproject.com/en/4.2/howto/csrf/</a></li></ul></td></tr>
+  </table>
+</article>
+<article class="finding" id="f11">
+  <header><span class="idx">#11</span><span class="sev med">Medium</span><span class="verdict fp">False positive</span>
+    <code class="rid">python.django.security.django-no-csrf-token.django-no-csrf-token</code></header>
+  <p class="loc"><code>portal/templates/assignments.html:48</code> &middot; <a href="https://sg.run/N0Bp">rule</a></p>
+  <pre class="code"><div class="ln"><span class="no">46</span>&lt;section class=&quot;card&quot;&gt;</div><div class="ln"><span class="no">47</span>  &lt;h2&gt;Publish a new assignment&lt;/h2&gt;</div><div class="ln hit"><span class="no">48</span>  &lt;form method=&quot;post&quot; action=&quot;{{ url_for(&#x27;assignments.create&#x27;) }}&quot; class=&quot;form-grid&quot;&gt;</div><div class="ln hit"><span class="no">49</span>    {{ csrf_field() }}</div><div class="ln hit"><span class="no">50</span>    &lt;label&gt;Course</div><div class="ln hit"><span class="no">51</span>      &lt;select name=&quot;course_id&quot; required&gt;</div><div class="ln hit"><span class="no">52</span>        {% for c in courses %}&lt;option value=&quot;{{ c.id }}&quot;&gt;{{ c.code }} · {{ c.name }}&lt;/option&gt;{% endfor %}</div><div class="ln hit"><span class="no">53</span>      &lt;/select&gt;</div><div class="ln hit"><span class="no">54</span>    &lt;/label&gt;</div><div class="ln hit"><span class="no">55</span>    &lt;label&gt;Title &lt;input name=&quot;title&quot; required minlength=&quot;3&quot; maxlength=&quot;120&quot;&gt;&lt;/label&gt;</div><div class="ln hit"><span class="no">56</span>    &lt;label&gt;Due date &lt;input type=&quot;datetime-local&quot; name=&quot;due_at&quot; required&gt;&lt;/label&gt;</div><div class="ln hit"><span class="no">57</span>    &lt;label&gt;Maximum score &lt;input type=&quot;number&quot; name=&quot;max_score&quot; value=&quot;100&quot; min=&quot;1&quot; max=&quot;1000&quot; step=&quot;0.5&quot; required&gt;&lt;/label&gt;</div><div class="ln hit"><span class="no">58</span>    &lt;label class=&quot;span-2&quot;&gt;Description &lt;textarea name=&quot;description&quot; rows=&quot;3&quot; maxlength=&quot;2000&quot;&gt;&lt;/textarea&gt;&lt;/label&gt;</div><div class="ln hit"><span class="no">59</span>    &lt;div class=&quot;span-2&quot;&gt;&lt;button type=&quot;submit&quot; class=&quot;btn btn-primary&quot;&gt;Publish&lt;/button&gt;&lt;/div&gt;</div><div class="ln hit"><span class="no">60</span>  &lt;/form&gt;</div><div class="ln"><span class="no">61</span>&lt;/section&gt;</div><div class="ln"><span class="no">62</span>{% endif %}</div></pre>
+  <table class="kv">
+    <tr><th>Message</th><td>Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.</td></tr>
+    <tr><th>CWE</th><td>CWE-352: Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>OWASP</th><td>-</td></tr>
+    <tr><th>Confidence / Likelihood / Impact</th><td>MEDIUM / MEDIUM / MEDIUM</td></tr>
+    <tr><th>Rule type</th><td>audit &middot; Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>Triage</th><td>This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check &#x27;Login POST without CSRF token rejected&#x27; returns HTTP 400).</td></tr>
+    <tr><th>Remediation</th><td>No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token).</td></tr>
+    <tr><th>References</th><td><ul><li><a href="https://docs.djangoproject.com/en/4.2/howto/csrf/">https://docs.djangoproject.com/en/4.2/howto/csrf/</a></li></ul></td></tr>
+  </table>
+</article>
+<article class="finding" id="f12">
+  <header><span class="idx">#12</span><span class="sev med">Medium</span><span class="verdict fp">False positive</span>
+    <code class="rid">python.django.security.django-no-csrf-token.django-no-csrf-token</code></header>
+  <p class="loc"><code>portal/templates/base.html:35</code> &middot; <a href="https://sg.run/N0Bp">rule</a></p>
+  <pre class="code"><div class="ln"><span class="no">33</span>      &lt;span class=&quot;who-name&quot;&gt;{{ g.user.full_name }}&lt;/span&gt;</div><div class="ln"><span class="no">34</span>      &lt;span class=&quot;badge role-{{ g.user.role }}&quot;&gt;{{ g.user.role }}&lt;/span&gt;</div><div class="ln hit"><span class="no">35</span>      &lt;form method=&quot;post&quot; action=&quot;{{ url_for(&#x27;auth.logout&#x27;) }}&quot; class=&quot;inline&quot;&gt;</div><div class="ln hit"><span class="no">36</span>        {{ csrf_field() }}</div><div class="ln hit"><span class="no">37</span>        &lt;button type=&quot;submit&quot; class=&quot;btn btn-ghost btn-sm&quot;&gt;Sign out&lt;/button&gt;</div><div class="ln hit"><span class="no">38</span>      &lt;/form&gt;</div><div class="ln"><span class="no">39</span>    &lt;/div&gt;</div><div class="ln"><span class="no">40</span>    {% endif %}</div></pre>
+  <table class="kv">
+    <tr><th>Message</th><td>Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.</td></tr>
+    <tr><th>CWE</th><td>CWE-352: Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>OWASP</th><td>-</td></tr>
+    <tr><th>Confidence / Likelihood / Impact</th><td>MEDIUM / MEDIUM / MEDIUM</td></tr>
+    <tr><th>Rule type</th><td>audit &middot; Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>Triage</th><td>This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check &#x27;Login POST without CSRF token rejected&#x27; returns HTTP 400).</td></tr>
+    <tr><th>Remediation</th><td>No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token).</td></tr>
+    <tr><th>References</th><td><ul><li><a href="https://docs.djangoproject.com/en/4.2/howto/csrf/">https://docs.djangoproject.com/en/4.2/howto/csrf/</a></li></ul></td></tr>
+  </table>
+</article>
+<article class="finding" id="f13">
+  <header><span class="idx">#13</span><span class="sev med">Medium</span><span class="verdict fp">False positive</span>
+    <code class="rid">python.django.security.django-no-csrf-token.django-no-csrf-token</code></header>
+  <p class="loc"><code>portal/templates/login.html:9</code> &middot; <a href="https://sg.run/N0Bp">rule</a></p>
+  <pre class="code"><div class="ln"><span class="no">7</span>    &lt;p class=&quot;muted&quot;&gt;Use your university username and password.&lt;/p&gt;</div><div class="ln"><span class="no">8</span>    {% if error %}&lt;div class=&quot;alert alert-error&quot; role=&quot;alert&quot;&gt;{{ error }}&lt;/div&gt;{% endif %}</div><div class="ln hit"><span class="no">9</span>    &lt;form method=&quot;post&quot; action=&quot;{{ url_for(&#x27;auth.login&#x27;) }}&quot; class=&quot;stack&quot;&gt;</div><div class="ln hit"><span class="no">10</span>      {{ csrf_field() }}</div><div class="ln hit"><span class="no">11</span>      &lt;label&gt;Username</div><div class="ln hit"><span class="no">12</span>        &lt;input name=&quot;username&quot; value=&quot;{{ username }}&quot; required maxlength=&quot;64&quot; autocomplete=&quot;username&quot; autocapitalize=&quot;none&quot; spellcheck=&quot;false&quot; autofocus&gt;</div><div class="ln hit"><span class="no">13</span>      &lt;/label&gt;</div><div class="ln hit"><span class="no">14</span>      &lt;label&gt;Password</div><div class="ln hit"><span class="no">15</span>        &lt;input type=&quot;password&quot; name=&quot;password&quot; required maxlength=&quot;128&quot; autocomplete=&quot;current-password&quot;&gt;</div><div class="ln hit"><span class="no">16</span>      &lt;/label&gt;</div><div class="ln hit"><span class="no">17</span>      {% if need_captcha %}</div><div class="ln hit"><span class="no">18</span>      &lt;div class=&quot;captcha&quot;&gt;</div><div class="ln hit"><span class="no">19</span>        &lt;img src=&quot;{{ url_for(&#x27;auth.captcha&#x27;, v=captcha_v) }}&quot; width=&quot;190&quot; height=&quot;64&quot; alt=&quot;CAPTCHA image with five characters&quot;&gt;</div><div class="ln hit"><span class="no">20</span>        &lt;label&gt;Type the characters shown above</div><div class="ln hit"><span class="no">21</span>          &lt;input name=&quot;captcha&quot; required maxlength=&quot;8&quot; autocomplete=&quot;off&quot; autocapitalize=&quot;characters&quot; spellcheck=&quot;false&quot;&gt;</div><div class="ln hit"><span class="no">22</span>        &lt;/label&gt;</div><div class="ln hit"><span class="no">23</span>        &lt;p class=&quot;hint&quot;&gt;Shown after repeated failed attempts. Reload the page for a new image.&lt;/p&gt;</div><div class="ln hit"><span class="no">24</span>      &lt;/div&gt;</div><div class="ln hit"><span class="no">25</span>      {% endif %}</div><div class="ln hit"><span class="no">26</span>      &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary btn-block&quot;&gt;Sign in&lt;/button&gt;</div><div class="ln hit"><span class="no">27</span>    &lt;/form&gt;</div><div class="ln"><span class="no">28</span>    &lt;p class=&quot;notice&quot;&gt;Staff will never ask for your password. Report suspicious messages to the IT help desk.&lt;/p&gt;</div><div class="ln"><span class="no">29</span>  &lt;/div&gt;</div></pre>
+  <table class="kv">
+    <tr><th>Message</th><td>Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.</td></tr>
+    <tr><th>CWE</th><td>CWE-352: Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>OWASP</th><td>-</td></tr>
+    <tr><th>Confidence / Likelihood / Impact</th><td>MEDIUM / MEDIUM / MEDIUM</td></tr>
+    <tr><th>Rule type</th><td>audit &middot; Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>Triage</th><td>This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check &#x27;Login POST without CSRF token rejected&#x27; returns HTTP 400).</td></tr>
+    <tr><th>Remediation</th><td>No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token).</td></tr>
+    <tr><th>References</th><td><ul><li><a href="https://docs.djangoproject.com/en/4.2/howto/csrf/">https://docs.djangoproject.com/en/4.2/howto/csrf/</a></li></ul></td></tr>
+  </table>
+</article>
+<article class="finding" id="f14">
+  <header><span class="idx">#14</span><span class="sev med">Medium</span><span class="verdict fp">False positive</span>
+    <code class="rid">python.django.security.django-no-csrf-token.django-no-csrf-token</code></header>
+  <p class="loc"><code>portal/templates/login_mfa.html:9</code> &middot; <a href="https://sg.run/N0Bp">rule</a></p>
+  <pre class="code"><div class="ln"><span class="no">7</span>    &lt;p class=&quot;muted&quot;&gt;Enter the 6-digit code from your authenticator app.&lt;/p&gt;</div><div class="ln"><span class="no">8</span>    {% if error %}&lt;div class=&quot;alert alert-error&quot; role=&quot;alert&quot;&gt;{{ error }}&lt;/div&gt;{% endif %}</div><div class="ln hit"><span class="no">9</span>    &lt;form method=&quot;post&quot; class=&quot;stack&quot;&gt;</div><div class="ln hit"><span class="no">10</span>      {{ csrf_field() }}</div><div class="ln hit"><span class="no">11</span>      &lt;label&gt;Authentication code</div><div class="ln hit"><span class="no">12</span>        &lt;input name=&quot;code&quot; inputmode=&quot;numeric&quot; pattern=&quot;[0-9 ]{6,7}&quot; maxlength=&quot;7&quot; autocomplete=&quot;one-time-code&quot; required autofocus&gt;</div><div class="ln hit"><span class="no">13</span>      &lt;/label&gt;</div><div class="ln hit"><span class="no">14</span>      &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary btn-block&quot;&gt;Verify&lt;/button&gt;</div><div class="ln hit"><span class="no">15</span>    &lt;/form&gt;</div><div class="ln"><span class="no">16</span>    &lt;p class=&quot;hint&quot;&gt;&lt;a href=&quot;{{ url_for(&#x27;auth.login&#x27;) }}&quot;&gt;Start over&lt;/a&gt;&lt;/p&gt;</div><div class="ln"><span class="no">17</span>  &lt;/div&gt;</div></pre>
+  <table class="kv">
+    <tr><th>Message</th><td>Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.</td></tr>
+    <tr><th>CWE</th><td>CWE-352: Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>OWASP</th><td>-</td></tr>
+    <tr><th>Confidence / Likelihood / Impact</th><td>MEDIUM / MEDIUM / MEDIUM</td></tr>
+    <tr><th>Rule type</th><td>audit &middot; Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>Triage</th><td>This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check &#x27;Login POST without CSRF token rejected&#x27; returns HTTP 400).</td></tr>
+    <tr><th>Remediation</th><td>No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token).</td></tr>
+    <tr><th>References</th><td><ul><li><a href="https://docs.djangoproject.com/en/4.2/howto/csrf/">https://docs.djangoproject.com/en/4.2/howto/csrf/</a></li></ul></td></tr>
+  </table>
+</article>
+<article class="finding" id="f15">
+  <header><span class="idx">#15</span><span class="sev med">Medium</span><span class="verdict fp">False positive</span>
+    <code class="rid">python.django.security.django-no-csrf-token.django-no-csrf-token</code></header>
+  <p class="loc"><code>portal/templates/message_new.html:8</code> &middot; <a href="https://sg.run/N0Bp">rule</a></p>
+  <pre class="code"><div class="ln"><span class="no">6</span>&lt;section class=&quot;card&quot;&gt;</div><div class="ln"><span class="no">7</span>  {% if contacts %}</div><div class="ln hit"><span class="no">8</span>  &lt;form method=&quot;post&quot; action=&quot;{{ url_for(&#x27;messages.compose&#x27;) }}&quot; class=&quot;stack&quot;&gt;</div><div class="ln hit"><span class="no">9</span>    {{ csrf_field() }}</div><div class="ln hit"><span class="no">10</span>    &lt;label&gt;To</div><div class="ln hit"><span class="no">11</span>      &lt;select name=&quot;to&quot; required&gt;</div><div class="ln hit"><span class="no">12</span>        &lt;option value=&quot;&quot;&gt;Choose a recipient&lt;/option&gt;</div><div class="ln hit"><span class="no">13</span>        {% for c in contacts %}</div><div class="ln hit"><span class="no">14</span>        &lt;option value=&quot;{{ c.id }}&quot; {% if form.to == c.id %}selected{% endif %}&gt;{{ c.full_name }} ({{ c.role }} · {{ c.courses }})&lt;/option&gt;</div><div class="ln hit"><span class="no">15</span>        {% endfor %}</div><div class="ln hit"><span class="no">16</span>      &lt;/select&gt;</div><div class="ln hit"><span class="no">17</span>    &lt;/label&gt;</div><div class="ln hit"><span class="no">18</span>    &lt;label&gt;Subject &lt;input name=&quot;subject&quot; value=&quot;{{ form.subject }}&quot; required maxlength=&quot;120&quot;&gt;&lt;/label&gt;</div><div class="ln hit"><span class="no">19</span>    &lt;label&gt;Message &lt;textarea name=&quot;body&quot; rows=&quot;8&quot; required maxlength=&quot;5000&quot;&gt;{{ form.body }}&lt;/textarea&gt;&lt;/label&gt;</div><div class="ln hit"><span class="no">20</span>    &lt;p class=&quot;hint&quot;&gt;Plain text only. You can message {{ &#x27;lecturers of your courses&#x27; if g.user.role == &#x27;student&#x27; else &#x27;students enrolled in your courses&#x27; }}.&lt;/p&gt;</div><div class="ln hit"><span class="no">21</span>    &lt;div&gt;&lt;button type=&quot;submit&quot; class=&quot;btn btn-primary&quot;&gt;Send&lt;/button&gt;&lt;/div&gt;</div><div class="ln hit"><span class="no">22</span>  &lt;/form&gt;</div><div class="ln"><span class="no">23</span>  {% else %}</div><div class="ln"><span class="no">24</span>  &lt;p class=&quot;muted&quot;&gt;You have no contacts yet. Contacts come from your course enrolments.&lt;/p&gt;</div></pre>
+  <table class="kv">
+    <tr><th>Message</th><td>Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.</td></tr>
+    <tr><th>CWE</th><td>CWE-352: Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>OWASP</th><td>-</td></tr>
+    <tr><th>Confidence / Likelihood / Impact</th><td>MEDIUM / MEDIUM / MEDIUM</td></tr>
+    <tr><th>Rule type</th><td>audit &middot; Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>Triage</th><td>This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check &#x27;Login POST without CSRF token rejected&#x27; returns HTTP 400).</td></tr>
+    <tr><th>Remediation</th><td>No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token).</td></tr>
+    <tr><th>References</th><td><ul><li><a href="https://docs.djangoproject.com/en/4.2/howto/csrf/">https://docs.djangoproject.com/en/4.2/howto/csrf/</a></li></ul></td></tr>
+  </table>
+</article>
+<article class="finding" id="f16">
+  <header><span class="idx">#16</span><span class="sev med">Medium</span><span class="verdict fp">False positive</span>
+    <code class="rid">python.django.security.django-no-csrf-token.django-no-csrf-token</code></header>
+  <p class="loc"><code>portal/templates/mfa_setup.html:17</code> &middot; <a href="https://sg.run/N0Bp">rule</a></p>
+  <pre class="code"><div class="ln"><span class="no">15</span>    &lt;h2&gt;2. Confirm a code&lt;/h2&gt;</div><div class="ln"><span class="no">16</span>    {% if error %}&lt;div class=&quot;alert alert-error&quot; role=&quot;alert&quot;&gt;{{ error }}&lt;/div&gt;{% endif %}</div><div class="ln hit"><span class="no">17</span>    &lt;form method=&quot;post&quot; class=&quot;stack&quot;&gt;</div><div class="ln hit"><span class="no">18</span>      {{ csrf_field() }}</div><div class="ln hit"><span class="no">19</span>      &lt;label&gt;6-digit code</div><div class="ln hit"><span class="no">20</span>        &lt;input name=&quot;code&quot; inputmode=&quot;numeric&quot; pattern=&quot;[0-9 ]{6,7}&quot; maxlength=&quot;7&quot; autocomplete=&quot;one-time-code&quot; required autofocus&gt;</div><div class="ln hit"><span class="no">21</span>      &lt;/label&gt;</div><div class="ln hit"><span class="no">22</span>      &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary&quot;&gt;Enable MFA&lt;/button&gt;</div><div class="ln hit"><span class="no">23</span>    &lt;/form&gt;</div><div class="ln"><span class="no">24</span>    &lt;p class=&quot;hint&quot;&gt;Codes change every 30 seconds and each code works only once.&lt;/p&gt;</div><div class="ln"><span class="no">25</span>  &lt;/div&gt;</div></pre>
+  <table class="kv">
+    <tr><th>Message</th><td>Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.</td></tr>
+    <tr><th>CWE</th><td>CWE-352: Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>OWASP</th><td>-</td></tr>
+    <tr><th>Confidence / Likelihood / Impact</th><td>MEDIUM / MEDIUM / MEDIUM</td></tr>
+    <tr><th>Rule type</th><td>audit &middot; Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>Triage</th><td>This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check &#x27;Login POST without CSRF token rejected&#x27; returns HTTP 400).</td></tr>
+    <tr><th>Remediation</th><td>No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token).</td></tr>
+    <tr><th>References</th><td><ul><li><a href="https://docs.djangoproject.com/en/4.2/howto/csrf/">https://docs.djangoproject.com/en/4.2/howto/csrf/</a></li></ul></td></tr>
+  </table>
+</article>
+<article class="finding" id="f17">
+  <header><span class="idx">#17</span><span class="sev med">Medium</span><span class="verdict fp">False positive</span>
+    <code class="rid">python.django.security.django-no-csrf-token.django-no-csrf-token</code></header>
+  <p class="loc"><code>portal/templates/profile.html:15</code> &middot; <a href="https://sg.run/N0Bp">rule</a></p>
+  <pre class="code"><div class="ln"><span class="no">13</span>    &lt;/dl&gt;</div><div class="ln"><span class="no">14</span>    &lt;p class=&quot;hint&quot;&gt;Name, ID number and role are managed by the registry and cannot be changed here.&lt;/p&gt;</div><div class="ln hit"><span class="no">15</span>    &lt;form method=&quot;post&quot; action=&quot;{{ url_for(&#x27;profile.update&#x27;) }}&quot; class=&quot;stack&quot;&gt;</div><div class="ln hit"><span class="no">16</span>      {{ csrf_field() }}</div><div class="ln hit"><span class="no">17</span>      &lt;label&gt;Email &lt;input type=&quot;email&quot; name=&quot;email&quot; value=&quot;{{ p.email }}&quot; required maxlength=&quot;254&quot; autocomplete=&quot;email&quot;&gt;&lt;/label&gt;</div><div class="ln hit"><span class="no">18</span>      &lt;label&gt;Phone &lt;input type=&quot;tel&quot; name=&quot;phone&quot; value=&quot;{{ p.phone or &#x27;&#x27; }}&quot; maxlength=&quot;20&quot; autocomplete=&quot;tel&quot;&gt;&lt;/label&gt;</div><div class="ln hit"><span class="no">19</span>      &lt;label&gt;Address &lt;input name=&quot;address&quot; value=&quot;{{ p.address or &#x27;&#x27; }}&quot; maxlength=&quot;200&quot; autocomplete=&quot;street-address&quot;&gt;&lt;/label&gt;</div><div class="ln hit"><span class="no">20</span>      &lt;label&gt;Current password &lt;span class=&quot;muted&quot;&gt;(required only when changing email)&lt;/span&gt;</div><div class="ln hit"><span class="no">21</span>        &lt;input type=&quot;password&quot; name=&quot;current_password&quot; maxlength=&quot;128&quot; autocomplete=&quot;current-password&quot;&gt;</div><div class="ln hit"><span class="no">22</span>      &lt;/label&gt;</div><div class="ln hit"><span class="no">23</span>      &lt;div&gt;&lt;button type=&quot;submit&quot; class=&quot;btn btn-primary&quot;&gt;Save changes&lt;/button&gt;&lt;/div&gt;</div><div class="ln hit"><span class="no">24</span>    &lt;/form&gt;</div><div class="ln"><span class="no">25</span>    &lt;p class=&quot;hint&quot;&gt;Last updated {{ p.updated_at|dt }}. A confirmation is emailed to your current address after every change.&lt;/p&gt;</div><div class="ln"><span class="no">26</span>  &lt;/section&gt;</div></pre>
+  <table class="kv">
+    <tr><th>Message</th><td>Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.</td></tr>
+    <tr><th>CWE</th><td>CWE-352: Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>OWASP</th><td>-</td></tr>
+    <tr><th>Confidence / Likelihood / Impact</th><td>MEDIUM / MEDIUM / MEDIUM</td></tr>
+    <tr><th>Rule type</th><td>audit &middot; Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>Triage</th><td>This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check &#x27;Login POST without CSRF token rejected&#x27; returns HTTP 400).</td></tr>
+    <tr><th>Remediation</th><td>No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token).</td></tr>
+    <tr><th>References</th><td><ul><li><a href="https://docs.djangoproject.com/en/4.2/howto/csrf/">https://docs.djangoproject.com/en/4.2/howto/csrf/</a></li></ul></td></tr>
+  </table>
+</article>
+<article class="finding" id="f18">
+  <header><span class="idx">#18</span><span class="sev med">Medium</span><span class="verdict fp">False positive</span>
+    <code class="rid">python.django.security.django-no-csrf-token.django-no-csrf-token</code></header>
+  <p class="loc"><code>portal/templates/profile.html:31</code> &middot; <a href="https://sg.run/N0Bp">rule</a></p>
+  <pre class="code"><div class="ln"><span class="no">29</span>    &lt;section class=&quot;card&quot;&gt;</div><div class="ln"><span class="no">30</span>      &lt;h2&gt;Change password&lt;/h2&gt;</div><div class="ln hit"><span class="no">31</span>      &lt;form method=&quot;post&quot; action=&quot;{{ url_for(&#x27;profile.change_password&#x27;) }}&quot; class=&quot;stack&quot;&gt;</div><div class="ln hit"><span class="no">32</span>        {{ csrf_field() }}</div><div class="ln hit"><span class="no">33</span>        &lt;label&gt;Current password &lt;input type=&quot;password&quot; name=&quot;current_password&quot; required maxlength=&quot;128&quot; autocomplete=&quot;current-password&quot;&gt;&lt;/label&gt;</div><div class="ln hit"><span class="no">34</span>        &lt;label&gt;New password &lt;input type=&quot;password&quot; name=&quot;new_password&quot; required minlength=&quot;{{ min_len }}&quot; maxlength=&quot;128&quot; autocomplete=&quot;new-password&quot;&gt;&lt;/label&gt;</div><div class="ln hit"><span class="no">35</span>        &lt;label&gt;Repeat new password &lt;input type=&quot;password&quot; name=&quot;confirm_password&quot; required minlength=&quot;{{ min_len }}&quot; maxlength=&quot;128&quot; autocomplete=&quot;new-password&quot;&gt;&lt;/label&gt;</div><div class="ln hit"><span class="no">36</span>        &lt;p class=&quot;hint&quot;&gt;At least {{ min_len }} characters. Long passphrases are encouraged; no special-character rules.&lt;/p&gt;</div><div class="ln hit"><span class="no">37</span>        &lt;div&gt;&lt;button type=&quot;submit&quot; class=&quot;btn btn-primary&quot;&gt;Change password&lt;/button&gt;&lt;/div&gt;</div><div class="ln hit"><span class="no">38</span>      &lt;/form&gt;</div><div class="ln"><span class="no">39</span>    &lt;/section&gt;</div><div class="ln"><span class="no">40</span> </div></pre>
+  <table class="kv">
+    <tr><th>Message</th><td>Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.</td></tr>
+    <tr><th>CWE</th><td>CWE-352: Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>OWASP</th><td>-</td></tr>
+    <tr><th>Confidence / Likelihood / Impact</th><td>MEDIUM / MEDIUM / MEDIUM</td></tr>
+    <tr><th>Rule type</th><td>audit &middot; Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>Triage</th><td>This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check &#x27;Login POST without CSRF token rejected&#x27; returns HTTP 400).</td></tr>
+    <tr><th>Remediation</th><td>No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token).</td></tr>
+    <tr><th>References</th><td><ul><li><a href="https://docs.djangoproject.com/en/4.2/howto/csrf/">https://docs.djangoproject.com/en/4.2/howto/csrf/</a></li></ul></td></tr>
+  </table>
+</article>
+<article class="finding" id="f19">
+  <header><span class="idx">#19</span><span class="sev med">Medium</span><span class="verdict fp">False positive</span>
+    <code class="rid">python.django.security.django-no-csrf-token.django-no-csrf-token</code></header>
+  <p class="loc"><code>portal/templates/profile.html:48</code> &middot; <a href="https://sg.run/N0Bp">rule</a></p>
+  <pre class="code"><div class="ln"><span class="no">46</span>        &lt;details&gt;</div><div class="ln"><span class="no">47</span>          &lt;summary&gt;Disable MFA&lt;/summary&gt;</div><div class="ln hit"><span class="no">48</span>          &lt;form method=&quot;post&quot; action=&quot;{{ url_for(&#x27;profile.mfa_disable&#x27;) }}&quot; class=&quot;stack&quot;&gt;</div><div class="ln hit"><span class="no">49</span>            {{ csrf_field() }}</div><div class="ln hit"><span class="no">50</span>            &lt;label&gt;Current password &lt;input type=&quot;password&quot; name=&quot;current_password&quot; required maxlength=&quot;128&quot; autocomplete=&quot;current-password&quot;&gt;&lt;/label&gt;</div><div class="ln hit"><span class="no">51</span>            &lt;label&gt;Authenticator code &lt;input name=&quot;code&quot; inputmode=&quot;numeric&quot; maxlength=&quot;7&quot; required autocomplete=&quot;one-time-code&quot;&gt;&lt;/label&gt;</div><div class="ln hit"><span class="no">52</span>            &lt;div&gt;&lt;button type=&quot;submit&quot; class=&quot;btn btn-danger btn-sm&quot;&gt;Disable MFA&lt;/button&gt;&lt;/div&gt;</div><div class="ln hit"><span class="no">53</span>          &lt;/form&gt;</div><div class="ln"><span class="no">54</span>        &lt;/details&gt;</div><div class="ln"><span class="no">55</span>        {% else %}&lt;p class=&quot;hint&quot;&gt;MFA is mandatory for your role.&lt;/p&gt;{% endif %}</div></pre>
+  <table class="kv">
+    <tr><th>Message</th><td>Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.</td></tr>
+    <tr><th>CWE</th><td>CWE-352: Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>OWASP</th><td>-</td></tr>
+    <tr><th>Confidence / Likelihood / Impact</th><td>MEDIUM / MEDIUM / MEDIUM</td></tr>
+    <tr><th>Rule type</th><td>audit &middot; Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>Triage</th><td>This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check &#x27;Login POST without CSRF token rejected&#x27; returns HTTP 400).</td></tr>
+    <tr><th>Remediation</th><td>No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token).</td></tr>
+    <tr><th>References</th><td><ul><li><a href="https://docs.djangoproject.com/en/4.2/howto/csrf/">https://docs.djangoproject.com/en/4.2/howto/csrf/</a></li></ul></td></tr>
+  </table>
+</article>
+<article class="finding" id="f20">
+  <header><span class="idx">#20</span><span class="sev med">Medium</span><span class="verdict fp">False positive</span>
+    <code class="rid">python.django.security.django-no-csrf-token.django-no-csrf-token</code></header>
+  <p class="loc"><code>portal/templates/profile.html:68</code> &middot; <a href="https://sg.run/N0Bp">rule</a></p>
+  <pre class="code"><div class="ln"><span class="no">66</span>    &lt;h2&gt;Active sessions&lt;/h2&gt;</div><div class="ln"><span class="no">67</span>    {% if sessions|length &gt; 1 %}</div><div class="ln hit"><span class="no">68</span>    &lt;form method=&quot;post&quot; action=&quot;{{ url_for(&#x27;profile.revoke_sessions&#x27;) }}&quot; class=&quot;inline&quot;&gt;</div><div class="ln hit"><span class="no">69</span>      {{ csrf_field() }}</div><div class="ln hit"><span class="no">70</span>      &lt;button type=&quot;submit&quot; class=&quot;btn btn-ghost btn-sm&quot;&gt;Sign out all other sessions&lt;/button&gt;</div><div class="ln hit"><span class="no">71</span>    &lt;/form&gt;</div><div class="ln"><span class="no">72</span>    {% endif %}</div><div class="ln"><span class="no">73</span>  &lt;/div&gt;</div></pre>
+  <table class="kv">
+    <tr><th>Message</th><td>Manually-created forms in django templates should specify a csrf_token to prevent CSRF attacks.</td></tr>
+    <tr><th>CWE</th><td>CWE-352: Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>OWASP</th><td>-</td></tr>
+    <tr><th>Confidence / Likelihood / Impact</th><td>MEDIUM / MEDIUM / MEDIUM</td></tr>
+    <tr><th>Rule type</th><td>audit &middot; Cross-Site Request Forgery (CSRF)</td></tr>
+    <tr><th>Triage</th><td>This is a Django rule that looks for {% csrf_token %}. UniPortal is a Flask app: every POST form contains {{ csrf_field() }} and security.csrf_protect() rejects any POST without a valid token (DAST check &#x27;Login POST without CSRF token rejected&#x27; returns HTTP 400).</td></tr>
+    <tr><th>Remediation</th><td>No change. For future scans exclude Django-only rules (e.g. --exclude-rule python.django.security.django-no-csrf-token.django-no-csrf-token).</td></tr>
+    <tr><th>References</th><td><ul><li><a href="https://docs.djangoproject.com/en/4.2/howto/csrf/">https://docs.djangoproject.com/en/4.2/howto/csrf/</a></li></ul></td></tr>
+  </table>
+</article>
+
+<h2>7. Scan warnings</h2>
+<p class="muted">Files Semgrep could only partly parse (common for Jinja templates; the rest of the file is still scanned).</p>
+<ul><li><code>[&#x27;PartialParsing&#x27;, [{&#x27;path&#x27;: &#x27;portal/templates/assignment_detail.html&#x27;, &#x27;start&#x27;:</code> Syntax error at line portal/templates/assignment_detail.html:1:</li><li><code>[&#x27;PartialParsing&#x27;, [{&#x27;path&#x27;: &#x27;portal/templates/assignments.html&#x27;, &#x27;start&#x27;: {&#x27;lin</code> Syntax error at line portal/templates/assignments.html:1:</li><li><code>[&#x27;PartialParsing&#x27;, [{&#x27;path&#x27;: &#x27;portal/templates/dashboard.html&#x27;, &#x27;start&#x27;: {&#x27;line&#x27;</code> Syntax error at line portal/templates/dashboard.html:1:</li><li><code>[&#x27;PartialParsing&#x27;, [{&#x27;path&#x27;: &#x27;portal/templates/error.html&#x27;, &#x27;start&#x27;: {&#x27;line&#x27;: 1,</code> Syntax error at line portal/templates/error.html:1:</li><li><code>[&#x27;PartialParsing&#x27;, [{&#x27;path&#x27;: &#x27;portal/templates/login_mfa.html&#x27;, &#x27;start&#x27;: {&#x27;line&#x27;</code> Syntax error at line portal/templates/login_mfa.html:1:</li><li><code>[&#x27;PartialParsing&#x27;, [{&#x27;path&#x27;: &#x27;portal/templates/message_new.html&#x27;, &#x27;start&#x27;: {&#x27;lin</code> Syntax error at line portal/templates/message_new.html:1:</li><li><code>[&#x27;PartialParsing&#x27;, [{&#x27;path&#x27;: &#x27;portal/templates/message_view.html&#x27;, &#x27;start&#x27;: {&#x27;li</code> Syntax error at line portal/templates/message_view.html:1:</li><li><code>[&#x27;PartialParsing&#x27;, [{&#x27;path&#x27;: &#x27;portal/templates/messages.html&#x27;, &#x27;start&#x27;: {&#x27;line&#x27;:</code> Syntax error at line portal/templates/messages.html:1:</li><li><code>[&#x27;PartialParsing&#x27;, [{&#x27;path&#x27;: &#x27;portal/templates/profile.html&#x27;, &#x27;start&#x27;: {&#x27;line&#x27;: </code> Syntax error at line portal/templates/profile.html:1:</li></ul>
+</main></body></html>

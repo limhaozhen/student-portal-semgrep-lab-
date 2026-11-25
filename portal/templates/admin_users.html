@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Users{% endblock %}
+{% block content %}
+<h1>Users</h1>
+<section class="card">
+  <div class="table-wrap"><table>
+    <thead><tr><th>User</th><th>Role</th><th>Email</th><th>Status</th><th>MFA</th><th class="num">Sessions</th><th>Actions</th></tr></thead>
+    <tbody>
+    {% for u in users %}
+      <tr>
+        <td><strong>{{ u.username }}</strong><br><span class="muted">{{ u.full_name }} · {{ u.id_number }}</span></td>
+        <td><span class="badge role-{{ u.role }}">{{ u.role }}</span></td>
+        <td>{{ u.email }}</td>
+        <td>
+          {% if not u.is_active %}<span class="badge danger">disabled</span>
+          {% elif u.locked_for %}<span class="badge warn">locked {{ (u.locked_for / 60)|round(0, 'ceil')|int }} min</span>
+          {% else %}<span class="badge ok">active</span>{% endif %}
+        </td>
+        <td>{% if u.mfa_enabled %}<span class="badge ok">on</span>{% else %}<span class="badge">off</span>{% endif %}</td>
+        <td class="num">{{ u.n_sessions }}</td>
+        <td class="actions">
+          {% if u.locked_for %}
+          <form method="post" action="{{ url_for('admin.unlock', user_id=u.id) }}" class="inline">{{ csrf_field() }}<button class="btn btn-sm btn-ghost">Unlock</button></form>
+          {% endif %}
+          {% if u.mfa_enabled %}
+          <form method="post" action="{{ url_for('admin.reset_mfa', user_id=u.id) }}" class="inline">{{ csrf_field() }}<button class="btn btn-sm btn-ghost">Reset MFA</button></form>
+          {% endif %}
+          {% if u.id != g.user.id %}
+          <form method="post" action="{{ url_for('admin.toggle_active', user_id=u.id) }}" class="inline">{{ csrf_field() }}<button class="btn btn-sm {{ 'btn-danger' if u.is_active else 'btn-ghost' }}">{{ 'Disable' if u.is_active else 'Enable' }}</button></form>
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+  <p class="hint">Accounts are provisioned by the registry (no self-registration). Every action here is written to the audit log.</p>
+</section>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Messages{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1>Messages</h1>
+  <a class="btn btn-primary" href="{{ url_for('messages.compose') }}">New message</a>
+</div>
+<nav class="tabs" aria-label="Mailbox">
+  <a href="{{ url_for('messages.index') }}" class="{{ 'active' if box == 'inbox' else '' }}">Inbox</a>
+  <a href="{{ url_for('messages.index', box='sent') }}" class="{{ 'active' if box == 'sent' else '' }}">Sent</a>
+</nav>
+<section class="card">
+  <div class="table-wrap"><table>
+    <thead><tr><th>{{ 'From' if box == 'inbox' else 'To' }}</th><th>Subject</th><th>Date</th></tr></thead>
+    <tbody>
+    {% for m in rows %}
+      <tr class="{{ 'unread' if box == 'inbox' and not m.read_at else '' }}">
+        <td>{{ m.other }} <span class="badge role-{{ m.other_role }}">{{ m.other_role }}</span></td>
+        <td><a href="{{ url_for('messages.view', message_id=m.id) }}">{{ m.subject }}</a></td>
+        <td>{{ m.created_at|dt }}</td>
+      </tr>
+    {% else %}
+      <tr><td colspan="3" class="muted">No messages.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+</section>
+{% endblock %}
